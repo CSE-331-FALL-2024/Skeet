@@ -8,6 +8,7 @@
  ************************************************************************/
 
 #include "bullet.h"
+#include "score.h"
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -34,10 +35,13 @@
 /*********************************************
  * BULLET constructor
  *********************************************/
-Bullet::Bullet(double angle, double speed, double radius, int value) :
-   dead(false), radius(radius), value(value)
-{
+// BEFORE
+// Bullet::Bullet(double angle, double speed, double radius, int value) :
+//   dead(false), radius(radius), value(value)
+// AFTER
    // set the initial position
+Bullet::Bullet(Status* pScore, double angle, double speed, double radius, 
+int value) : dead(false), radius(radius), value(value) {
    pt.setX(dimensions.getX() - 1.0);
    pt.setY(1.0);
    assert(pt.getX() > 100.0);
@@ -47,6 +51,12 @@ Bullet::Bullet(double angle, double speed, double radius, int value) :
    v.setDy(speed * sin(angle));
    assert(v.getDx() <= 0.0);
    assert(v.getDy() >= 0.0);
+
+   // ADDED
+   if (pScore) {
+       subscribe(pScore);
+   }
+   notify(-value);
 }
 
 /*********************************************
@@ -77,6 +87,39 @@ void Bullet::move(std::list<Effect*> & effects)
    // out of bounds checker
    if (isOutOfBounds())
       kill();
+}
+
+/***************************************************************/
+/*                       SUBSCRIPTIONS                         */
+/***************************************************************/
+// AFTER - NEW
+void Bullet::subscribe(Status* status) {
+    bool found = false;
+    for (auto it = audience.begin(); it != audience.end(); ++it) {
+        if (*it == status) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        audience.push_back(status);
+    }
+}
+
+// AFTER - NEW
+void Bullet::unsubscribe(Status* status) {
+    for (auto it = audience.begin(); it != audience.end(); ++it) {
+        if (*it == status) {
+            audience.erase(it);
+        }
+    }
+}
+
+// AFTER - NEW
+void Bullet::notify(int message) {
+    for (auto it = audience.begin(); it != audience.end(); ++it) {
+        (*it)->update(message);
+    }
 }
 
 /*********************************************

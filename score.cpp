@@ -22,6 +22,11 @@ string Score::getText() const
     return sout.str();
 }
 
+// AFTER - ADDED
+void Score::update(int message) {
+    points += message;
+}
+
 /************************
  * HIT RATIO  GET TEXT
  * Get the status text
@@ -40,14 +45,25 @@ string HitRatio::getText() const
     return sout.str();
 }
 
+// AFTER - ADDED
+void HitRatio::update(int message) {
+    if (message > 0) {
+        numKilled++;
+    }
+    else if (message < 0) {
+        numMissed++;
+    }
+}
+
 /************************
  * HIT RATIO  ADJUST
  * Adjust the score for a bird hit (positive) or missed (negative)
  ************************/
-void HitRatio::adjust(int value)
-{
-    if (value > 0)
-        numKilled++;
-    else if (value < 0)
-        numMissed++;
-}
+// AFTER - REMOVED NOT NEEDED
+//void HitRatio::adjust(int value)
+//{
+//    if (value > 0)
+//        numKilled++;
+//    else if (value < 0)
+//        numMissed++;
+//}

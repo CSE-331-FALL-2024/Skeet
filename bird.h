@@ -9,91 +9,128 @@
 
 #pragma once
 #include "position.h"
+ // AFTER - New
+#include <list>
+#include "score.h"
 
 /**********************
  * BIRD
  * Everything that can be shot
  **********************/
-class Bird
-{
+class Bird {
+	// AFTER - New
+private:
+	std::list<Status*> audience;
+
 protected:
-   static Position dimensions; // size of the screen
-   Position pt;                  // position of the flyer
-   Velocity v;                // velocity of the flyer
-   double radius;             // the size (radius) of the flyer
-   bool dead;                 // is this flyer dead?
-   int points;                // how many points is this worth?
-   
+	static Position dimensions; // size of the screen
+	Position pt;                  // position of the flyer
+	Velocity v;                // velocity of the flyer
+	double radius;             // the size (radius) of the flyer
+	bool dead;                 // is this flyer dead?
+	int points;                // how many points is this worth?
+
 public:
-   Bird() : dead(false), points(0), radius(1.0) { }
-   
-   // setters
-   void operator=(const Position    & rhs) { pt = rhs;    }
-   void operator=(const Velocity & rhs) { v = rhs;     }
-   void kill()                          { dead = true; }
-   void setPoints(int pts)              { points = pts;}
+	// BEFORE
+	// Bird() : dead(false), points(0), radius(1.0) { }
+	// AFTER
+	Bird(Status* pScore, Status* pHitRatio) : dead(false), points(0),
+		radius(1.0) {
+		if (pScore) {
+			subscribe(pScore);
+		}
+		if (pHitRatio) {
+			subscribe(pHitRatio);
+		}
+	}
 
-   // getters
-   bool isDead()           const { return dead;   }
-   Position getPosition()     const { return pt;     }
-   Velocity getVelocity()  const { return v;      }
-   double getRadius()      const { return radius; }
-   int getPoints() const { return points; }
-   bool isOutOfBounds() const
-   {
-      return (pt.getX() < -radius || pt.getX() >= dimensions.getX() + radius ||
-              pt.getY() < -radius || pt.getY() >= dimensions.getY() + radius);
-   }
+    // setters
+	void operator=(const Position& rhs) { pt = rhs; }
+	void operator=(const Velocity& rhs) { v = rhs; }
+	// BEFORE
+	//void kill() { dead = true; }
+	// AFTER
+	void kill(bool isHit) {
+		notify((isHit) ? getPoints() : -getPoints());
+		dead = true;
+	}
 
-   // special functions
-   virtual void draw() = 0;
-   virtual void advance() = 0;
+	void setPoints(int pts) { points = pts; }
+
+	// getters
+	bool isDead()           const { return dead; }
+	Position getPosition()     const { return pt; }
+	Velocity getVelocity()  const { return v; }
+	double getRadius()      const { return radius; }
+	int getPoints() const { return points; }
+	bool isOutOfBounds() const {
+		return (pt.getX() < -radius || pt.getX() >= dimensions.getX() + radius ||
+			pt.getY() < -radius || pt.getY() >= dimensions.getY() + radius);
+	}
+
+	// special functions
+	virtual void draw() = 0;
+	virtual void advance() = 0;
+
+	// AFTER - New
+	// subscriptions
+	void subscribe(Status* status);
+	void unsubscribe(Status* status);
+	void notify(int message);
 };
 
 /*********************************************
  * STANDARD
  * A standard bird: slows down, flies in a straight line
  *********************************************/
-class Standard : public Bird
-{
+class Standard : public Bird {
 public:
-    Standard(double radius = 25.0, double speed = 5.0, int points = 10);
-    void draw();
-    void advance();
+	// BEFORE
+	// Standard(double radius = 25.0, double speed = 5.0, int points = 10);
+	// AFTER
+	Standard(Status* pScore, Status* pHitRatio, double radius = 25.0, double speed = 5.0, int points = 10);
+	void draw();
+	void advance();
 };
 
 /*********************************************
  * FLOATER
  * A bird that floats like a balloon: flies up and really slows down
  *********************************************/
-class Floater : public Bird
-{
+class Floater : public Bird {
 public:
-    Floater(double radius = 30.0, double speed = 5.0, int points = 15);
-    void draw();
-    void advance();
+	// BEFORE
+	// Floater(double radius = 30.0, double speed = 5.0, int points = 15);
+	// AFTER
+	Floater(Status* pScore, Status* pHitRatio, double radius = 30.0, double speed = 5.0, int points = 15);
+	void draw();
+	void advance();
 };
 
 /*********************************************
  * CRAZY
  * A crazy flying object: randomly changes direction
  *********************************************/
-class Crazy : public Bird
-{
+class Crazy : public Bird {
 public:
-    Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
-    void draw();
-    void advance();
+	// BEFORE
+	// Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
+	// AFTER
+	Crazy(Status* pScore, Status* pHitRatio, double radius = 30.0, double speed = 4.5, int points = 30);
+	void draw();
+	void advance();
 };
 
 /*********************************************
  * SINKER
  * A sinker bird: honors gravity
  *********************************************/
-class Sinker : public Bird
-{
+class Sinker : public Bird {
 public:
-    Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
-    void draw();
-    void advance();
+	// BEFORE
+	// Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
+	// AFTER
+	Sinker(Status* pScore, Status* pHitRatio, double radius = 30.0, double speed = 4.5, int points = 20);
+	void draw();
+	void advance();
 };
