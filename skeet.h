@@ -20,6 +20,7 @@
 #include "points.h"
 
 #include <list>
+class Handler;
 
 /*************************************************************************
  * Skeet
@@ -43,6 +44,7 @@ public:
 
     // is the game currently playing right now?
     bool isPlaying() const { return time.isPlaying();  }
+    friend class Handler;
 private:
     // generate new birds
     void spawn();                  
