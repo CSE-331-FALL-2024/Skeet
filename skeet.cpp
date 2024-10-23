@@ -90,6 +90,9 @@ void Skeet::animate()
          if ((*it)->getPoints())
             points.push_back(Points((*it)->getPosition(), (*it)->getPoints()));
          score.adjust((*it)->getPoints());
+         // Fixed Memory Leak
+         delete (*it);
+         // ^^^^^^^^^^^^^^^^^
          it = birds.erase(it);
       }
       else
@@ -103,6 +106,9 @@ void Skeet::animate()
          int value = -(*it)->getValue();
          points.push_back(Points((*it)->getPosition(), value));
          score.adjust(value);
+         // Fixed Memory Leak
+         delete (*it);
+         // ^^^^^^^^^^^^^^^^^
          it = bullets.erase(it);
       }
       else
@@ -110,9 +116,13 @@ void Skeet::animate()
    
    // remove zombie fragments
    for (auto it = effects.begin(); it != effects.end();)
-      if ((*it)->isDead())
+       if ((*it)->isDead()) {
+         // Fixed Memory Leak
+         delete (*it);
+         // ^^^^^^^^^^^^^^^^^
          it = effects.erase(it);
-      else
+       }
+       else
          ++it;
 
    // remove expired points
