@@ -9,12 +9,20 @@
 
 #pragma once
 #include "position.h"
+#include "visitor.h"
+
+
+class Object
+{
+public:
+    virtual void accept(class Visitor& v) = 0;
+};
 
 /**********************
  * BIRD
  * Everything that can be shot
  **********************/
-class Bird
+class Bird : public Object
 {
 protected:
    static Position dimensions; // size of the screen
@@ -48,6 +56,9 @@ public:
    // special functions
    virtual void draw() = 0;
    virtual void advance() = 0;
+
+
+
 };
 
 /*********************************************
@@ -60,6 +71,11 @@ public:
     Standard(double radius = 25.0, double speed = 5.0, int points = 10);
     void draw();
     void advance();
+
+    // accept a visitor
+    void Object::accept(Visitor& vis) override {
+        vis.visit(*this);
+    }
 };
 
 /*********************************************
@@ -72,6 +88,11 @@ public:
     Floater(double radius = 30.0, double speed = 5.0, int points = 15);
     void draw();
     void advance();
+
+    // accept a visitor
+    void Object::accept(Visitor& vis) override {
+        vis.visit(*this);
+    }
 };
 
 /*********************************************
@@ -84,6 +105,11 @@ public:
     Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
     void draw();
     void advance();
+
+    // accept a visitor
+    void Object::accept(Visitor& vis) override {
+        vis.visit(*this);
+    }
 };
 
 /*********************************************
@@ -96,4 +122,9 @@ public:
     Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
     void draw();
     void advance();
+
+    // accept a visitor
+    void Object::accept(Visitor& vis) override {
+        vis.visit(*this);
+    }
 };

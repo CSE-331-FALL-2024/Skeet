@@ -7,6 +7,8 @@
 #include <sstream>
 #include "skeet.h"
 using namespace std;
+#include "visitor.h"
+
 
 
 #ifdef __APPLE__
@@ -30,6 +32,7 @@ using namespace std;
 #include <math.h>
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
 #endif // _WIN32
+
 
 /************************
  * SKEET ANIMATE

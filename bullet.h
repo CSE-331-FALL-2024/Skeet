@@ -13,11 +13,14 @@
 #include <list>
 #include <cassert>
 
+#include "object.h"
+#include "visitor.h"
+
 /*********************************************
  * BULLET
  * Something to shoot something else
  *********************************************/
-class Bullet
+class Bullet /*: public Object*/
 {
 protected:
    static Position dimensions;   // size of the screen

@@ -1,0 +1,143 @@
+﻿  bird.cpp
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,24): error C2061: syntax error: identifier 'Bird'
+  (compiling source file 'bird.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(17,16): error C2061: syntax error: identifier 'Bird'
+  (compiling source file 'bird.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(18,9): error C2065: 'bird': undeclared identifier
+  (compiling source file 'bird.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(77,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'bird.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(77,13):
+      while trying to match the argument list '(Standard)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(94,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'bird.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(94,13):
+      while trying to match the argument list '(Floater)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(111,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'bird.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(111,13):
+      while trying to match the argument list '(Crazy)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(128,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'bird.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(128,13):
+      while trying to match the argument list '(Sinker)'
+  
+  bullet.cpp
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(77,9): error C2027: use of undefined type 'Visitor'
+  (compiling source file 'bullet.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(18,31):
+      see declaration of 'Visitor'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(94,9): error C2027: use of undefined type 'Visitor'
+  (compiling source file 'bullet.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(18,31):
+      see declaration of 'Visitor'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(111,9): error C2027: use of undefined type 'Visitor'
+  (compiling source file 'bullet.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(18,31):
+      see declaration of 'Visitor'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(128,9): error C2027: use of undefined type 'Visitor'
+  (compiling source file 'bullet.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(18,31):
+      see declaration of 'Visitor'
+  
+  game.cpp
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,24): error C2061: syntax error: identifier 'Bird'
+  (compiling source file 'game.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(17,16): error C2061: syntax error: identifier 'Bird'
+  (compiling source file 'game.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(18,9): error C2065: 'bird': undeclared identifier
+  (compiling source file 'game.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(77,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'game.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(77,13):
+      while trying to match the argument list '(Standard)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(94,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'game.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(94,13):
+      while trying to match the argument list '(Floater)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(111,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'game.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(111,13):
+      while trying to match the argument list '(Crazy)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(128,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'game.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(128,13):
+      while trying to match the argument list '(Sinker)'
+  
+  skeet.cpp
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,24): error C2061: syntax error: identifier 'Bird'
+  (compiling source file 'skeet.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(17,16): error C2061: syntax error: identifier 'Bird'
+  (compiling source file 'skeet.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(18,9): error C2065: 'bird': undeclared identifier
+  (compiling source file 'skeet.cpp')
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(77,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'skeet.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(77,13):
+      while trying to match the argument list '(Standard)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(94,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'skeet.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(94,13):
+      while trying to match the argument list '(Floater)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(111,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'skeet.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(111,13):
+      while trying to match the argument list '(Crazy)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(128,13): error C2660: 'Visitor::visit': function does not take 1 arguments
+  (compiling source file 'skeet.cpp')
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\visitor.h(7,18):
+      see declaration of 'Visitor::visit'
+      C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\bird.h(128,13):
+      while trying to match the argument list '(Sinker)'
+  
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\skeet.cpp(270,14): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\skeet.cpp(271,14): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\skeet.cpp(278,17): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\skeet.cpp(279,17): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\skeet.cpp(281,20): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\skeet.cpp(282,20): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sooae\Desktop\CSE331 Design Patterns\Lab05-06\Skeet\skeet.cpp(285,30): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+  Generating Code...
