@@ -9,42 +9,55 @@
 #define handler_hpp
 
 #include <stdio.h>
-#include "skeet.h"
 
+class Skeet;
 class UserInput;
 class Handler
 {
 public:
-    Handler();
-    virtual bool handleRequest(UserInput & ui, Skeet & skeet) = 0;
+    Handler() {};
+    virtual bool handleRequest(const UserInput & ui, Skeet & skeet) = 0;
 };
 
 class HandlerGameOver : public Handler
 {
 public:
-    HandlerGameOver();
-    bool handleRequest(UserInput & ui, Skeet & skeet);
+    HandlerGameOver() {};
+    bool handleRequest(const UserInput & ui, Skeet & skeet);
 };
 
 class HandlerPellet : public Handler
 {
 public:
-    HandlerPellet();
-    bool handleRequest(UserInput & ui, Skeet & skeet);
+    HandlerPellet() {};
+    bool handleRequest(const UserInput & ui, Skeet & skeet);
 };
 
 class HandlerMissile : public Handler
 {
 public:
-    HandlerMissile();
-    bool handleRequest(UserInput & ui, Skeet & skeet);
+    HandlerMissile() {};
+    bool handleRequest(const UserInput & ui, Skeet & skeet);
 };
 
 class HandlerBomb : public Handler
 {
 public:
-    HandlerBomb();
-    bool handleRequest(UserInput & ui, Skeet & skeet);
+    HandlerBomb() {};
+    bool handleRequest(const UserInput & ui, Skeet & skeet);
 };
 
+class HandlerMoveGun : public Handler
+{
+public:
+    HandlerMoveGun() {};
+    bool handleRequest(const UserInput & ui, Skeet & skeet);
+};
+
+class HandlerGuideMissile : public Handler
+{
+public:
+    HandlerGuideMissile() {};
+    bool handleRequest(const UserInput & ui, Skeet & skeet);
+};
 #endif /* handler_hpp */

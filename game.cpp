@@ -26,21 +26,22 @@ Position Bird::dimensions(WIDTH, HEIGHT);
   **************************************/
 void callBack(const UserInput* pUI, void* p)
 {
-   // the first step is to cast the void pointer into a game object. This
-   // is the first step of every single callback function in OpenGL. 
-   Skeet* pSkeet = (Skeet*)p;
+    // the first step is to cast the void pointer into a game object. This
+    // is the first step of every single callback function in OpenGL. 
+    Skeet* pSkeet = (Skeet*)p;
 
-   // handle user input
-   pSkeet->interact(*pUI);
+    pSkeet->setLevel();
+    // handle user input
+    pSkeet->interact(*pUI);
 
-   // move the stuff
-   pSkeet->animate();
+    // move the stuff
+    pSkeet->animate();
 
-   // output the stuff
-   if (pSkeet->isPlaying())
-      pSkeet->drawLevel();
-   else
-      pSkeet->drawStatus();
+    // output the stuff
+    if (pSkeet->isPlaying())
+        pSkeet->drawLevel();
+    else
+        pSkeet->drawStatus();
 }
 
 /*********************************

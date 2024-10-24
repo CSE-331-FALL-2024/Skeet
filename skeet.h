@@ -44,7 +44,16 @@ public:
 
     // is the game currently playing right now?
     bool isPlaying() const { return time.isPlaying();  }
-    friend class Handler;
+    
+    // Reset game
+    void reset();
+    
+    // Handler helper functions
+    double getGunAngle();
+    void addBullet(Bullet * p);
+    void moveGun(const UserInput & ui);
+    void moveMissile(const UserInput & ui);
+    void setLevel();
 private:
     // generate new birds
     void spawn();                  
@@ -64,4 +73,5 @@ private:
     HitRatio hitRatio;             // the hit ratio for the birds
     Position dimensions;           // size of the screen
     bool bullseye;
+    std::list<Handler*> handlers;  // List of all current handlers
 };

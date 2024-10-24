@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include "skeet.h"
+#include "handler.hpp"
 using namespace std;
 
 
@@ -351,44 +352,82 @@ void Skeet::drawStatus() const
    }
 }
 
+void Skeet::reset()
+{
+   time.reset();
+   score.reset();
+   hitRatio.reset();
+}
+
+double Skeet::getGunAngle()
+{
+   return gun.getAngle();
+}
+
+void Skeet::addBullet(Bullet * p)
+{
+   bullets.push_back(p);
+}
+
+void Skeet::moveGun(const UserInput & ui)
+{
+   gun.interact(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft());
+}
+
+void Skeet::moveMissile(const UserInput & ui)
+{
+   // send movement information to all the bullets. Only the missile cares.
+   for (auto bullet : bullets)
+      bullet->input(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft(), ui.isB());
+}
+
+void Skeet::setLevel()
+{
+   handlers.clear();
+   switch (time.level()) {
+      case 0:
+         handlers.push_back(new HandlerGameOver());
+         break;
+      case 1:
+         handlers.push_back(new HandlerMoveGun());
+         handlers.push_back(new HandlerPellet());
+         break;
+      case 2:
+         handlers.push_back(new HandlerMoveGun());
+         handlers.push_back(new HandlerPellet());
+         handlers.push_back(new HandlerMissile());
+         handlers.push_back(new HandlerGuideMissile());
+         break;
+      case 3:
+         handlers.push_back(new HandlerMoveGun());
+         handlers.push_back(new HandlerPellet());
+         handlers.push_back(new HandlerMissile());
+         handlers.push_back(new HandlerGuideMissile());
+         handlers.push_back(new HandlerBomb());
+         break;
+      case 4:
+         handlers.push_back(new HandlerMoveGun());
+         handlers.push_back(new HandlerPellet());
+         handlers.push_back(new HandlerMissile());
+         handlers.push_back(new HandlerGuideMissile());
+         handlers.push_back(new HandlerBomb());
+         break;
+      default:
+         break;
+   }
+}
+
 /************************
  * SKEET INTERACT
- * handle all user input
+ * handle all user inputs
  ************************/
 void Skeet::interact(const UserInput & ui)
 {
-   // reset the game
-   if (time.isGameOver() && ui.isSpace())
-   { 
-      time.reset();
-      score.reset();
-      hitRatio.reset();
-      return;
+   for (auto handler: handlers)
+   {
+      if (handler->handleRequest(ui, *this))
+         break;
    }
-
-   // gather input from the interface
-   gun.interact(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft());
-   Bullet *p = nullptr;
-
-   // a pellet can be shot at any time
-   if (ui.isSpace())
-      p = new Pellet(gun.getAngle());
-   // missiles can be shot at level 2 and higher
-   else if (ui.isM() && time.level() > 1)
-      p = new Missile(gun.getAngle());
-   // bombs can be shot at level 3 and higher
-   else if (ui.isB() && time.level() > 2)
-      p = new Bomb(gun.getAngle());
-   
-   bullseye = ui.isShift();
-
-   // add something if something has been added
-   if (nullptr != p)
-      bullets.push_back(p);
-   
-   // send movement information to all the bullets. Only the missile cares.
-   for (auto bullet : bullets)
-      bullet->input(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft(), ui.isB()); 
 }
 
 /******************************************************************
