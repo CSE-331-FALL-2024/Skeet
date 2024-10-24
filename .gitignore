@@ -1,7 +1,18 @@
-.idea/
-Skeet.filters
-Skeet.sln
-Skeet.user
-Skeet.vcxproj
-Skeet.vcxproj.user
-Skeet.xcodeproj/
+# OLD IGNORE SETTINGS
+#.idea/
+# Skeet.filters
+# Skeet.sln
+# Skeet.user
+# Skeet.vcxproj
+# Skeet.vcxproj.user
+# Skeet.xcodeproj/
+
+# Ignore everything
+*
+
+# Except these file types
+!*.h
+!*.hpp
+!*.c
+!*.cpp
+!*.txt
