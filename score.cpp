@@ -23,7 +23,8 @@ string Score::getText() const
 }
 
 // AFTER - ADDED
-void Score::update(int message) {
+void Score::update(int message) 
+{
     points += message;
 }
 

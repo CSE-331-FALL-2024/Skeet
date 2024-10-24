@@ -255,31 +255,39 @@ void Sinker::advance() {
 /*                       SUBSCRIPTIONS                         */
 /***************************************************************/
 // AFTER - NEW
-void Bird::subscribe(Status* status) {
+void Bird::subscribe(Status* status) 
+{
 	bool found = false;
-	for (auto it = audience.begin(); it != audience.end(); ++it) {
-		if (*it == status) {
+	for (auto it = audience.begin(); it != audience.end() && !found; ++it) 
+	{
+		if (*it == status) 
+		{
 			found = true;
-			break;
 		}
 	}
-	if (!found) {
+	if (!found)
+	{
 		audience.push_back(status);
 	}
 }
 
 // AFTER - NEW
-void Bird::unsubscribe(Status* status) {
-	for (auto it = audience.begin(); it != audience.end(); ++it) {
-		if (*it == status) {
+void Bird::unsubscribe(Status* status) 
+{
+	for (auto it = audience.begin(); it != audience.end(); ++it) 
+	{
+		if (*it == status) 
+		{
 			audience.erase(it);
 		}
 	}
 }
 
 // AFTER - NEW
-void Bird::notify(int message) {
-	for (auto it = audience.begin(); it != audience.end(); ++it) {
+void Bird::notify(int message) 
+{
+	for (auto it = audience.begin(); it != audience.end(); ++it) 
+	{
 		(*it)->update(message);
 	}
 }
