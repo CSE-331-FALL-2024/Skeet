@@ -17,4 +17,16 @@
 !*.cpp
 !*.txt
 !*.md
+
+# Include project and solution files
+!*.sln
+!*.vcxproj
+!*.vcxproj.filters
+!*.vcxproj.user
+!*.vcxproj.includepath
+!*.vcxproj.files
+
+# Include configuration files
 !*.config
+!*.json
+!*.xml
