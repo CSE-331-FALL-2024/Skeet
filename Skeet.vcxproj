@@ -150,8 +150,6 @@ copy "$(ProjectDir)packages\nupengl.core.redist.0.1.0.1\build\native\bin\x64\fre
     <ClInclude Include="skeet.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="uiInteract.h" />
-    <ClInclude Include="visitor.h" />
-    <ClInclude Include="visitors.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
