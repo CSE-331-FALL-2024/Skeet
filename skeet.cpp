@@ -54,20 +54,38 @@ void Skeet::animate()
    }
    
    // spawn
-   spawn();
+   spawn ();
    
-   // move the birds and the bullets
-   for (auto element : birds)
-   {
-      element->advance();
-      hitRatio.adjust(element->isDead() ? -1 : 0);
+   MoveVisitor moveVisitor(effects, hitRatio);
+   // move the birds, bullets, and fragments
+   for (auto& bird : birds) {
+	   bird->accept(moveVisitor);
    }
-   for (auto bullet : bullets)
-      bullet->move(effects);
-   for (auto effect : effects)
-      effect->fly();
-   for (auto & pts : points)
-      pts.update();
+
+   for (auto& bullet : bullets) {
+	   bullet->accept(moveVisitor);
+   }
+   for (auto& effect : effects) {
+	   effect->accept(moveVisitor);
+   }
+   for (auto& pts : points) {
+	   const_cast<Points&>(pts).accept(moveVisitor);
+   }
+
+   // move the birds and the bullets
+   //for (auto element : birds)
+   //{
+   //   element->advance();
+   //   hitRatio.adjust(element->isDead() ? -1 : 0);
+   //}
+   //for (auto bullet : bullets)
+   //   bullet->move(effects);
+
+   //for (auto effect : effects)
+   //   effect->fly();
+
+   //for (auto & pts : points)
+   //   pts.update();
       
    // hit detection
    for (auto element : birds)
@@ -305,15 +323,38 @@ void Skeet::drawLevel() const
    // output the gun
    gun.display();
          
+   // Make a DrawVisitor to visit all the objects
+   // and call there draw methods
+   DrawVisitor drawVisitor;
+
+   // Draw all birds using visitor
+   for (auto& bird : birds) {
+       bird->accept(drawVisitor);
+   }
+   // Draw all bullets using visitor
+   for (auto& bullet : bullets) {
+       bullet->accept(drawVisitor);
+   }
+   // Draw all effects using visitor
+   for (auto& effect : effects) {
+       effect->accept(drawVisitor);
+   }
+   // Draw all points using visitor
+   for (auto& pts : points) {
+       const_cast<Points&>(pts).accept(drawVisitor);
+
+   }
+
+
    // output the birds, bullets, and fragments
-   for (auto& pts : points)
-      pts.show();
-   for (auto effect : effects)
-      effect->render();
-   for (auto bullet : bullets)
-      bullet->output();
-   for (auto element : birds)
-      element->draw();
+   //for (auto& pts : points)                   //replaced with drawVisitor
+   //   pts.show();
+   //for (auto effect : effects)     
+   //   effect->render();
+   //for (auto bullet : bullets)
+   //   bullet->output();
+   //for (auto element : birds)
+   //   element->draw();
    
    // status
    drawText(Position(10,                         dimensions.getY() - 30), score.getText()  );

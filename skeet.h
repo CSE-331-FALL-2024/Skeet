@@ -18,8 +18,11 @@
 #include "time.h"
 #include "score.h"
 #include "points.h"
-#include "object.h"
+
+#include "gameObject.h"
 #include "visitor.h"
+#include "drawVisitor.h"
+#include "moveVisitor.h"
 
 #include <list>
 
@@ -64,7 +67,7 @@ private:
     HitRatio hitRatio;             // the hit ratio for the birds
     Position dimensions;           // size of the screen
 
-	std::list<Object*> objects;    // all the objects in the game
+	std::list<GameObject*> objects;    // all the objects in the game
 
     bool bullseye;
 };

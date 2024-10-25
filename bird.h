@@ -9,20 +9,14 @@
 
 #pragma once
 #include "position.h"
+#include "gameObject.h"
 #include "visitor.h"
-
-
-class Object
-{
-public:
-    virtual void accept(class Visitor& v) = 0;
-};
 
 /**********************
  * BIRD
  * Everything that can be shot
  **********************/
-class Bird : public Object
+class Bird : public GameObject
 {
 protected:
    static Position dimensions; // size of the screen
@@ -56,8 +50,10 @@ public:
    // special functions
    virtual void draw() = 0;
    virtual void advance() = 0;
-
-
+   // also `accept` method is purely virtual in GameObject
+   void accept(Visitor& visitor) override {
+       visitor.visit(*this);
+   }
 
 };
 
@@ -72,10 +68,10 @@ public:
     void draw();
     void advance();
 
-    // accept a visitor
-    void Object::accept(Visitor& vis) override {
-        vis.visit(*this);
-    }
+    //// accept a visitor
+    //void accept(Visitor& visitor) override {
+    //    visitor.visit(*this);
+    //}
 };
 
 /*********************************************
@@ -89,10 +85,10 @@ public:
     void draw();
     void advance();
 
-    // accept a visitor
-    void Object::accept(Visitor& vis) override {
-        vis.visit(*this);
-    }
+    //// accept a visitor
+    //void accept(Visitor& visitor) override {
+    //    visitor.visit(*this);
+    //}
 };
 
 /*********************************************
@@ -107,8 +103,8 @@ public:
     void advance();
 
     // accept a visitor
-    void Object::accept(Visitor& vis) override {
-        vis.visit(*this);
+    void accept(Visitor& visitor) override {
+        visitor.visit(*this);
     }
 };
 
@@ -123,8 +119,8 @@ public:
     void draw();
     void advance();
 
-    // accept a visitor
-    void Object::accept(Visitor& vis) override {
-        vis.visit(*this);
-    }
+    //// accept a visitor
+    //void accept(Visitor& visitor) override {
+    //    visitor.visit(*this);
+    //}
 };

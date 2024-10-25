@@ -10,10 +10,13 @@
 #pragma once
 #include "position.h"
 
+#include "gameObject.h"
+#include "visitor.h"
+
 /**********************
  * Effect: stuff that is not interactive
  **********************/
-class Effect
+class Effect : public GameObject
 {
 protected:
     Position pt;      // location of the effect
@@ -30,6 +33,11 @@ public:
     
     // it is dead when age goes to 0.0
     bool isDead() const { return age <= 0.0; }
+
+    // Accepts the visitor from gameObject
+    void accept(Visitor& visitor) override {
+        visitor.visit(*this);
+    }
 };
 
 /**********************
@@ -46,10 +54,10 @@ public:
     Fragment(const Position & pt, const Velocity & v);
     
     // draw it
-    void render() const;
+    void render() const override;
     
     // move it forward with regards to inertia. Let it age
-    void fly();
+    void fly() override;
 };
 
 /**********************
@@ -65,10 +73,10 @@ public:
     Streek(const Position & pt, Velocity v);
     
     // draw it
-    void render() const;
+    void render() const override;
     
     // move it forward with regards to inertia. Let it age
-    void fly();
+    void fly() override;
 };
 
 /**********************
@@ -84,8 +92,8 @@ public:
     Exhaust(const Position & pt, Velocity v);
     
     // draw it
-    void render() const;
+    void render() const override;
     
     // move it forward with regards to inertia. Let it age
-    void fly();
+    void fly() override;
 };

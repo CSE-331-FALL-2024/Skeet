@@ -13,14 +13,14 @@
 #include <list>
 #include <cassert>
 
-#include "object.h"
+#include "gameObject.h"
 #include "visitor.h"
 
 /*********************************************
  * BULLET
  * Something to shoot something else
  *********************************************/
-class Bullet /*: public Object*/
+class Bullet : public GameObject
 {
 protected:
    static Position dimensions;   // size of the screen
@@ -50,6 +50,12 @@ public:
    virtual void input(bool isUp, bool isDown, bool isB) {}
    virtual void move(std::list<Effect*> &effects);
 
+
+   void accept(Visitor& visitor) override {
+       visitor.visit(*this);
+   }
+
+
 protected:
    bool isOutOfBounds() const
    {
@@ -74,7 +80,7 @@ class Pellet : public Bullet
 public:
    Pellet(double angle, double speed = 15.0) : Bullet(angle, speed, 1.0, 1) {}
    
-   void output();
+   void output() override;
 };
 
 /*********************
@@ -88,9 +94,9 @@ private:
 public:
    Bomb(double angle, double speed = 10.0) : Bullet(angle, speed, 4.0, 4), timeToDie(60) {}
    
-   void output();
-   void move(std::list<Effect*> & effects);
-   void death(std::list<Bullet *> & bullets);
+   void output() override;
+   void move(std::list<Effect*> & effects) override;
+   void death(std::list<Bullet *> & bullets) override;
 };
 
 /*********************
@@ -116,8 +122,8 @@ public:
       radius = 3.0;
    }
    
-   void output();  
-   void move(std::list<Effect*> & effects);
+   void output() override;
+   void move(std::list<Effect*> & effects) override;
 };
 
 
@@ -130,13 +136,13 @@ class Missile : public Bullet
 public:
    Missile(double angle, double speed = 10.0) : Bullet(angle, speed, 1.0, 3) {}
    
-   void output();
-   void input(bool isUp, bool isDown, bool isB)
+   void output() override;
+   void input(bool isUp, bool isDown, bool isB) override
    {
       if (isUp)
          v.turn(0.04);
       if (isDown)
          v.turn(-0.04);
    }
-   void move(std::list<Effect*> & effects);
+   void move(std::list<Effect*> & effects) override;
 };
