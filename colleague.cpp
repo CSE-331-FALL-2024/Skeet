@@ -112,15 +112,14 @@ private:
 class ScoreColleague : Colleague
 {
 public:
-	ScoreColleague(Status& pstatus) : score(), pStatus(pstatus) {}
+	ScoreColleague(Score& pscore) : pScore(pscore) {}
 	void notify(Message message)
 	{
-		pStatus.adjust(message.value);
+		pScore.adjust(message.value);
 	}
 
 private:
-	Score score;
-	Status& pStatus;
+	Score& pScore;
 };
 
 /******************************************************************
@@ -129,16 +128,15 @@ private:
 class HitRatioColleague : Colleague
 {
 public:
-	HitRatioColleague(Status pstatus) : hitRatio(), pStatus(pstatus) {}
+	HitRatioColleague(HitRatio phitratio) : pHitRatio(phitratio) {}
 	void notify(Message message)
 	{
 		if (message.type == "BIRD_DIED")
 		{
-			pStatus.adjust(message.value);
+			pHitRatio.adjust(message.value);
 		}
 	}
 
 private:
-	HitRatio hitRatio;
-	Status& pStatus;
+	HitRatio& pHitRatio;
 };
