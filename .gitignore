@@ -5,3 +5,5 @@ Skeet.user
 Skeet.vcxproj
 Skeet.vcxproj.user
 Skeet.xcodeproj/
+/.vs
+/.gitignore
