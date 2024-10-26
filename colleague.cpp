@@ -53,14 +53,10 @@ using namespace std;
 class Colleague
 {
 public:
-	Colleague() : mediator(mediator), message() {};
-	Colleague(Mediator pmediator) : mediator(pmediator) {};
-	void notify(Message message)
-	{
-		return;
-	};
+	Colleague(Mediator* m) : mediator(m) {};
+	virtual void notify(Message message) = 0;
 protected:
-	Mediator mediator;
+	Mediator* mediator;
 	Message message;
 };
 
@@ -70,19 +66,19 @@ protected:
 class BirdColleague : Colleague
 {
 public:
-	BirdColleague(Bird& pbird) : pBird(pbird) {}
+	BirdColleague(Mediator* mediator, Bird& bird) : Colleague(mediator), pBird(bird) {}
 
 	void wentOutOfBounds()
 	{
 		message.type = "BIRD_DIED";
 		message.value = -pBird.getPoints();
-		mediator.notify(message);
+		mediator->notify(message);
 	};
 	void wasShot()
 	{
 		message.type = "BIRD_DIED";
 		message.value = pBird.getPoints();
-		mediator.notify(message);
+		mediator->notify(message);
 	};
 private:
 	Bird& pBird;
@@ -94,13 +90,13 @@ private:
 class BulletColleague : Colleague
 {
 public:
-	BulletColleague(Bullet& pbullet) : pBullet(pbullet) {}
+	BulletColleague(Mediator* m, Bullet& pbullet) : Colleague(m), pBullet(pbullet) {}
 
 	void firedBullet()
 	{
 		message.type = "BULLET_FIRED";
 		message.value = pBullet.getValue();
-		mediator.notify(message);
+		mediator->notify(message);
 	}
 private:
 	Bullet& pBullet;
@@ -112,7 +108,7 @@ private:
 class ScoreColleague : Colleague
 {
 public:
-	ScoreColleague(Score& pscore) : pScore(pscore) {}
+	ScoreColleague(Mediator* mediator, Score& pscore) : Colleague(mediator), pScore(pscore) {}
 	void notify(Message message)
 	{
 		pScore.adjust(message.value);
@@ -128,7 +124,7 @@ private:
 class HitRatioColleague : Colleague
 {
 public:
-	HitRatioColleague(HitRatio phitratio) : pHitRatio(phitratio) {}
+	HitRatioColleague(Mediator* m, HitRatio phitratio) : Colleague(m), pHitRatio(phitratio) {}
 	void notify(Message message)
 	{
 		if (message.type == "BIRD_DIED")
