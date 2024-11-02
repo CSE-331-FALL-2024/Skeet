@@ -426,7 +426,7 @@ void Skeet::interact(const UserInput & ui)
    for (auto handler: handlers)
    {
       if (handler->handleRequest(ui, *this))
-         break;
+         return;
    }
 }
 
