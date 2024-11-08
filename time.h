@@ -12,6 +12,9 @@
 #include <string>
 #include <cassert>
 
+// Forward Declare
+class StorageTime;
+
 #define FRAMES_PER_SECOND 30
 
 /************************
@@ -21,8 +24,7 @@
 class Time
 {
 public:
-    Time() { reset(); }
-    
+    Time(StorageTime& storageTime);
     // which level are we in?
     int level() const  { return levelNumber; }
     
@@ -54,14 +56,18 @@ public:
     void reset();
 
 private:
+    StorageTime& storageTime;
+    int& levelNumber; 
+    int& framesLeft;
+
     // number of frames left in this level
-    int framesLeft;
+    //int framesLeft;
     
     // the level number we are currently in
-    int levelNumber;
+    //int levelNumber;
     
     // length in seconds of each level
-    std::array<int, 5> levelLength;
+    //std::array<int, 5> levelLength;
     
     // seconds from frames
     int secondsFromFrames(int frame) const
@@ -70,11 +76,7 @@ private:
     }
     
     // how long have we been in the level in seconds?
-    int secondsInLevel() const
-    {
-        assert(levelNumber < (int)levelLength.size());
-        return levelLength[levelNumber] - secondsFromFrames(framesLeft);
-    }
+    int secondsInLevel() const;
     
 };
 

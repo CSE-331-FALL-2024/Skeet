@@ -16,8 +16,6 @@ private:
 	int numBirds;
 	int points;
 	int numKilled;
-	StorageTime time;
-	StorageGun gun;
 
 public:
 	Storage();
@@ -26,6 +24,8 @@ public:
 	int getNumMissed();
 	void add(StorageElement* pElement);
 	void reset();
+	StorageTime time;
+	StorageGun gun;
 
 	// Internal Class
 	class Iterator

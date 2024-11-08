@@ -1,6 +1,7 @@
 #include "interface.h"
 #include "logic.h"
 #include "uiInteract.h"
+#include "storage_gun.h"
 
 /******************************************************************************
 * INTERFACE :: CONSTRUCTOR
@@ -29,3 +30,5 @@ void Interface::processing()
 void Interface::output()
 {
 }
+
+
