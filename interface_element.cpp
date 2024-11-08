@@ -117,9 +117,8 @@ void InterfaceElement::drawDisk(const Position& center, double radius,
 void InterfacePellet::draw(StorageElement* pElement)
 {
     if (!pElement->getIsDead())
-       drawDot(pElement->getPoint(), 3.0, 1.0, 1.0, 0.0);
+        drawDot(pElement->getPosition(), 3.0, 1.0, 1.0, 0.0);
 }
-
 /******************************************************************************
 * INTERFACE BOMB :: DRAW
 ******************************************************************************/
@@ -128,10 +127,10 @@ void InterfaceBomb::draw(StorageElement* pElement)
     if (!pElement->getIsDead())
     {
         // Bomb actually has a gradient to cut out the harsh edges
-        drawDot(pElement->getPoint(), pElement->getRadius() + 2.0, 0.50, 0.50, 0.00);
-        drawDot(pElement->getPoint(), pElement->getRadius() + 1.0, 0.75, 0.75, 0.00);
-        drawDot(pElement->getPoint(), pElement->getRadius() + 0.0, 0.87, 0.87, 0.00);
-        drawDot(pElement->getPoint(), pElement->getRadius() - 1.0, 1.00, 1.00, 0.00);
+        drawDot(pElement->getPosition(), pElement->getRadius() + 2.0, 0.50, 0.50, 0.00);
+        drawDot(pElement->getPosition(), pElement->getRadius() + 1.0, 0.75, 0.75, 0.00);
+        drawDot(pElement->getPosition(), pElement->getRadius() + 0.0, 0.87, 0.87, 0.00);
+        drawDot(pElement->getPosition(), pElement->getRadius() - 1.0, 1.00, 1.00, 0.00);
     }
 }
 
@@ -141,7 +140,7 @@ void InterfaceBomb::draw(StorageElement* pElement)
 void InterfaceShrapnel::draw(StorageElement* pElement)
 {
     if (!pElement->getIsDead())
-       drawDot(pElement->getPoint(), pElement->getRadius(), 1.0, 1.0, 0.0);
+       drawDot(pElement->getPosition(), pElement->getRadius(), 1.0, 1.0, 0.0);
 }
 
 /******************************************************************************
@@ -152,10 +151,10 @@ void InterfaceMissile::draw(StorageElement* pElement)
     if (!pElement->getIsDead())
     {
         // missile is a line with a dot at the end so it looks like fins.
-        Position ptNext(pElement->getPoint());
+        Position ptNext(pElement->getPosition());
         ptNext.add(pElement->getVelocity());
-        drawLine(pElement->getPoint(), ptNext, 1.0, 1.0, 0.0);
-        drawDot(pElement->getPoint(), 3.0, 1.0, 1.0, 1.0);
+        drawLine(pElement->getPosition(), ptNext, 1.0, 1.0, 0.0);
+        drawDot(pElement->getPosition(), 3.0, 1.0, 1.0, 1.0);
     }
 }
 
@@ -166,8 +165,8 @@ void InterfaceStandard::draw(StorageElement* pElement)
 {
     if (!pElement->getIsDead())
     {
-       drawDisk(pElement->getPoint(), pElement->getRadius() - 0.0, 1.0, 1.0, 1.0); // white outline
-       drawDisk(pElement->getPoint(), pElement->getRadius() - 3.0, 0.0, 0.0, 1.0); // blue center
+       drawDisk(pElement->getPosition(), pElement->getRadius() - 0.0, 1.0, 1.0, 1.0); // white outline
+       drawDisk(pElement->getPosition(), pElement->getRadius() - 3.0, 0.0, 0.0, 1.0); // blue center
     }
 }
 
@@ -178,8 +177,8 @@ void InterfaceFloater::draw(StorageElement* pElement)
 {
     if (!pElement->getIsDead())
     {
-       drawDisk(pElement->getPoint(), pElement->getRadius() - 0.0, 0.0, 0.0, 1.0); // blue outline
-       drawDisk(pElement->getPoint(), pElement->getRadius() - 4.0, 1.0, 1.0, 1.0); // white center
+       drawDisk(pElement->getPosition(), pElement->getRadius() - 0.0, 0.0, 0.0, 1.0); // blue outline
+       drawDisk(pElement->getPosition(), pElement->getRadius() - 4.0, 1.0, 1.0, 1.0); // white center
     }
 }
 
@@ -190,11 +189,11 @@ void InterfaceCrazy::draw(StorageElement* pElement)
 {
     if (!pElement->getIsDead())
     {
-       drawDisk(pElement->getPoint(), pElement->getRadius() * 1.0, 0.0, 0.0, 1.0); // bright blue outside
-       drawDisk(pElement->getPoint(), pElement->getRadius() * 0.8, 0.2, 0.2, 1.0);
-       drawDisk(pElement->getPoint(), pElement->getRadius() * 0.6, 0.4, 0.4, 1.0);
-       drawDisk(pElement->getPoint(), pElement->getRadius() * 0.4, 0.6, 0.6, 1.0);
-       drawDisk(pElement->getPoint(), pElement->getRadius() * 0.2, 0.8, 0.8, 1.0); // almost white inside
+       drawDisk(pElement->getPosition(), pElement->getRadius() * 1.0, 0.0, 0.0, 1.0); // bright blue outside
+       drawDisk(pElement->getPosition(), pElement->getRadius() * 0.8, 0.2, 0.2, 1.0);
+       drawDisk(pElement->getPosition(), pElement->getRadius() * 0.6, 0.4, 0.4, 1.0);
+       drawDisk(pElement->getPosition(), pElement->getRadius() * 0.4, 0.6, 0.6, 1.0);
+       drawDisk(pElement->getPosition(), pElement->getRadius() * 0.2, 0.8, 0.8, 1.0); // almost white inside
     }
 }
 
@@ -205,8 +204,8 @@ void InterfaceSinker::draw(StorageElement* pElement)
 {
     if (!pElement->getIsDead())
     {
-       drawDisk(pElement->getPoint(), pElement->getRadius() - 0.0, 0.0, 0.0, 0.8);
-       drawDisk(pElement->getPoint(), pElement->getRadius() - 4.0, 0.0, 0.0, 0.0);
+       drawDisk(pElement->getPosition(), pElement->getRadius() - 0.0, 0.0, 0.0, 0.8);
+       drawDisk(pElement->getPosition(), pElement->getRadius() - 4.0, 0.0, 0.0, 0.0);
     }
 }
 
@@ -226,10 +225,10 @@ void InterfaceFragment::draw(StorageElement* pElement)
     glColor3f((GLfloat)pElement->getAge(), (GLfloat)pElement->getAge(), (GLfloat)pElement->getAge());
     
     // draw the fragment
-    glVertex2f((GLfloat)(pElement->getPoint().getX() - pElement->getSize()), (GLfloat)(pElement->getPoint().getY() - pElement->getSize()));
-    glVertex2f((GLfloat)(pElement->getPoint().getX() + pElement->getSize()), (GLfloat)(pElement->getPoint().getY() - pElement->getSize()));
-    glVertex2f((GLfloat)(pElement->getPoint().getX() + pElement->getSize()), (GLfloat)(pElement->getPoint().getY() + pElement->getSize()));
-    glVertex2f((GLfloat)(pElement->getPoint().getX() - pElement->getSize()), (GLfloat)(pElement->getPoint().getY() + pElement->getSize()));
+    glVertex2f((GLfloat)(pElement->getPosition().getX() - pElement->getSize()), (GLfloat)(pElement->getPosition().getY() - pElement->getSize()));
+    glVertex2f((GLfloat)(pElement->getPosition().getX() + pElement->getSize()), (GLfloat)(pElement->getPosition().getY() - pElement->getSize()));
+    glVertex2f((GLfloat)(pElement->getPosition().getX() + pElement->getSize()), (GLfloat)(pElement->getPosition().getY() + pElement->getSize()));
+    glVertex2f((GLfloat)(pElement->getPosition().getX() - pElement->getSize()), (GLfloat)(pElement->getPosition().getY() + pElement->getSize()));
     glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
     glEnd();
 }
@@ -248,7 +247,7 @@ void InterfaceStreak::draw(StorageElement* pElement)
     glColor3f((GLfloat)pElement->getAge(), (GLfloat)pElement->getAge(), (GLfloat)pElement->getAge());
 
     // Draw the actual line
-    glVertex2f((GLfloat)pElement->getPoint().getX(), (GLfloat)pElement->getPoint().getY());
+    glVertex2f((GLfloat)pElement->getPosition().getX(), (GLfloat)pElement->getPosition().getY());
     glVertex2f((GLfloat)pElement->getPtEnd().getX(), (GLfloat)pElement->getPtEnd().getY());
 
     glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
@@ -269,7 +268,7 @@ void InterfaceExhaust::draw(StorageElement* pElement)
     glColor3f((GLfloat)pElement->getAge(), (GLfloat)pElement->getAge(), (GLfloat)pElement->getAge());
 
     // Draw the actual line
-    glVertex2f((GLfloat)pElement->getPoint().getX(), (GLfloat)pElement->getPoint().getY());
+    glVertex2f((GLfloat)pElement->getPosition().getX(), (GLfloat)pElement->getPosition().getY());
     glVertex2f((GLfloat)pElement->getPtEnd().getX(), (GLfloat)pElement->getPtEnd().getY());
 
     glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
