@@ -2,16 +2,23 @@
 
 // Forward Declaration
 class StorageElement;
+class Position;
 
 /******************************************************************************
 * INTERFACE ELEMENT
 ******************************************************************************/
 class InterfaceElement
 {
-private:
-
 public:
 	virtual void draw(StorageElement* pElement) = 0;
+protected:
+    void glVertexPoint(const Position& point) const;
+    void drawLine(const Position& begin, const Position& end,
+                  double red, double green, double blue) const;
+    void drawDot(const Position& point, double radius,
+                 double red, double green, double blue) const;
+    void drawDisk(const Position& center, double radius,
+                  double red, double green, double blue);
 };
 
 /******************************************************************************
@@ -19,8 +26,6 @@ public:
 ******************************************************************************/
 class InterfacePellet : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -31,8 +36,6 @@ public:
 ******************************************************************************/
 class InterfaceBomb : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -43,8 +46,6 @@ public:
 ******************************************************************************/
 class InterfaceShrapnel : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -54,8 +55,6 @@ public:
 ******************************************************************************/
 class InterfaceMissile : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -65,8 +64,6 @@ public:
 ******************************************************************************/
 class InterfaceStandard : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -76,8 +73,6 @@ public:
 ******************************************************************************/
 class InterfaceFloater : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -87,8 +82,6 @@ public:
 ******************************************************************************/
 class InterfaceCrazy : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -98,8 +91,6 @@ public:
 ******************************************************************************/
 class InterfaceSinker : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -109,8 +100,6 @@ public:
 ******************************************************************************/
 class InterfaceFragment : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -120,8 +109,6 @@ public:
 ******************************************************************************/
 class InterfaceStreak : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
@@ -131,8 +118,6 @@ public:
 ******************************************************************************/
 class InterfaceExhaust : public InterfaceElement
 {
-private:
-
 public:
 	void draw(StorageElement* pElement) override;
 };
