@@ -31,16 +31,22 @@ protected:
 	Velocity v;
 	double radius;
 	int points;
+    double age;
+    double size;
+    Position ptEnd;
 	bool isDead;
 	LogicElement* pLogic;
 	InterfaceElement* pInterface;
 public:
 	// The IteratorBird and IteratorBullet in Storage need this method.
 	virtual StorageType getStorageType() = 0;
-	Position getPoint() { return pt; }
+	Position getPosition() { return pt; }
 	Velocity getVelocity() { return v; }
 	double getRadius() { return radius; }
 	int getPoints() { return points; }
+    double getAge() { return age; }
+    double getSize() { return size; }
+    Position getPtEnd() { return ptEnd; }
 	bool getIsDead() { return isDead; }
 	LogicElement* getLogicElementPtr() { return pLogic; }
 	InterfaceElement* getInterfaceElementPtr() { return pInterface; }
