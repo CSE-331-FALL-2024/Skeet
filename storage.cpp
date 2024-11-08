@@ -5,7 +5,7 @@
 /******************************************************************************
 * STORAGE :: CONSTRUCTOR
 ******************************************************************************/
-Storage::Storage() : numBirds(0), points(0), numKilled(0)
+Storage::Storage() : numBirds(0), points(0), numKilled(0), time(), gun()
 {
 }
 

@@ -18,6 +18,7 @@
 #include "time.h"
 #include "score.h"
 #include "points.h"
+#include "storage.h"
 
 #include <list>
 
@@ -28,8 +29,8 @@
 class Skeet
 {
 public:
-    Skeet(Position & dimensions) : dimensions(dimensions),
-        gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
+    Skeet(Position & dimensions) : 
+        storage(), dimensions(dimensions),  gun(storage.gun, Position(800.0, 0.0)), time(storage.time), score(), hitRatio(), bullseye(false) {}
 
     // handle all user input
     void interact(const UserInput& ui);
@@ -52,6 +53,11 @@ private:
                    double redBack, double greenBack, double blueBack) const;
     void drawBullseye(double angle) const;
 
+    /***************************************************************************
+    * TEMPORARILY IMPLEMETATION FOR BUILD PURPOSES ONLY
+    *****************************************************************************/
+    Storage storage;
+    // *************************************************************************
     Gun gun;                       // the gun
     std::list<Bird*> birds;        // all the shootable birds
     std::list<Bullet*> bullets;    // the bullets
@@ -62,4 +68,5 @@ private:
     HitRatio hitRatio;             // the hit ratio for the birds
     Position dimensions;           // size of the screen
     bool bullseye;
+
 };

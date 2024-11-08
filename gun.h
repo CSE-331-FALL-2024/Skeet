@@ -9,6 +9,10 @@
 
 #pragma once
 #include "position.h"
+#include "storage_gun.h"
+
+// Forward Declare
+class StorageGun;
 
 /*********************************************
  * GUN
@@ -17,12 +21,14 @@
 class Gun
 {
 public:
-   Gun(const Position & pt) : angle(0.78 /* 45 degrees */), pt(pt) {}  // 45 degrees initially
-   void display() const;
-   void interact(int clockwise, int counterclockwise);
-   double getAngle() const { return angle; }
-   
+	Gun(StorageGun& storageGun, const Position& pt);
+	// TODO: ** REMOVE display() - to be implemented in class Interface
+	void display(const StorageGun& storageGun) const;  
+	void interact(int clockwise, int counterclockwise);
+	double getAngle() const { return storageGun.getAngleRef(); }
+
 private:
-   double angle;
-   Position pt;
+	StorageGun& storageGun;
 };
+
+

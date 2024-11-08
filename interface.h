@@ -4,9 +4,10 @@
 
 // Forward Declarations
 class UserInput;
+class StorageGun;
 
 /******************************************************************************
-* INTERFACE
+* CLASS INTERFACE
 ******************************************************************************/
 class Interface
 {
@@ -19,4 +20,7 @@ public:
 	void processing();
 	void output();
 };
+
+
+
 

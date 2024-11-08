@@ -31,6 +31,42 @@
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
 #endif // _WIN32
 
+/*********************************************
+  * GUN : CONSTRUCTOR
+  * Initialize the gun and connect it with 
+  * the Storage class
+  *********************************************/
+Gun::Gun(StorageGun& storageGun, const Position& pt) : storageGun(storageGun)
+{
+	storageGun.getPositionRef() = pt;
+	storageGun.getAngleRef() = 0.78; // 45 degress
+}
+
+/*********************************************
+ * GUN : INTERACT
+ * Move the gun
+ *********************************************/
+void Gun::interact(int clockwise, int counterclockwise)
+{
+	double& angle = storageGun.getAngleRef();
+	// move it
+	if (clockwise > 0)
+	{
+		angle += (clockwise > 10) ? 0.06 : 0.025;
+		if (angle > M_PI_2)
+			angle = M_PI_2;
+	}
+	if (counterclockwise > 0)
+	{
+		angle -= (clockwise > 10) ? 0.06 : 0.025;
+		if (angle < 0.0)
+			angle = 0.0;
+	}
+}
+
+// *****CODE BELOW TO BE REMOVED WHEN IMPLEMENTED IN INTERFACE CLASS *****
+// VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
  /************************************************************************
   * ROTATE
   * Rotate a given point (point) around a given origin (center) by a given
@@ -94,32 +130,15 @@ void drawRectangle(const Position& pt,
    glEnd();
 }
 
- /*********************************************
+
+/*********************************************
   * GUN : DISPLAY
   * Display the gun on the screen
   *********************************************/
-void Gun::display() const
+void Gun::display(const StorageGun& sg) const
 {
-   drawRectangle(pt, M_PI_2 - angle, 10.0, 100.0, 1.0, 1.0, 1.0);
-}
-
-/*********************************************
- * GUN : INTERACT
- * Move the gun
- *********************************************/
-void Gun::interact(int clockwise, int counterclockwise)
-{
-   // move it
-   if (clockwise > 0)
-   {
-      angle += (clockwise > 10) ? 0.06 : 0.025;
-      if (angle > M_PI_2)
-         angle = M_PI_2;
-   }
-   if (counterclockwise > 0)
-   {
-      angle -= (clockwise > 10) ? 0.06 : 0.025;
-      if (angle < 0.0)
-         angle = 0.0;
-   }
+	//StorageGun& sg = const_cast<StorageGun&>(storageGun);
+	const Position& pt = sg.getPositionRef();
+	const double& angle = sg.getAngleRef();
+	drawRectangle(pt, M_PI_2 - angle, 10.0, 100.0, 1.0, 1.0, 1.0);
 }
