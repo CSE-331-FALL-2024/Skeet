@@ -10,12 +10,15 @@
 #include "uiInteract.h"
 #include "skeet.h"
 #include "position.h"
+#include "storage_element.h"
 
 #define WIDTH  800.0
 #define HEIGHT 800.0
 
 Position Bullet::dimensions(WIDTH, HEIGHT);
 Position Bird::dimensions(WIDTH, HEIGHT);
+
+Position StorageElement::dimensions(WIDTH, HEIGHT);
 
  /*************************************
   * All the interesting work happens here, when

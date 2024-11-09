@@ -1,4 +1,6 @@
 #pragma once
+#include <list>
+#include "storage_element.h"
 
 class StorageElement;
 
@@ -7,47 +9,37 @@ class StorageElement;
 ******************************************************************************/
 class LogicElement
 {
-private:
-
+protected:
+    bool isOutOfBounds(StorageElement*& pElement);
+    int randomInt(int min, int max);
+    double randomFloat(double min, double max);
 public:
-	virtual void advance(StorageElement* pElement) = 0;
-	virtual void turn(StorageElement* pElement) = 0;
+    void kill(StorageElement*& pElement) { pElement->setIsDead(true); };
+	virtual void advance(StorageElement*& pElement, std::list<StorageElement*> & effects);
+    virtual void death(std::list<StorageElement *> & bullets) {};
 };
 
 /******************************************************************************
 * LOGIC PELLET
 ******************************************************************************/
-class LogicPellet : public LogicElement
-{
-private:
-
-public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
-};
+class LogicPellet : public LogicElement {};
 
 /******************************************************************************
 * LOGIC BOMB
 ******************************************************************************/
 class LogicBomb : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
 * LOGIC SHRAPNEL
 ******************************************************************************/
-class LogiciShrapnel : public LogicElement
+class LogicShrapnel : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
@@ -55,11 +47,8 @@ public:
 ******************************************************************************/
 class LogicMissile : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
@@ -67,11 +56,8 @@ public:
 ******************************************************************************/
 class LogicStandard : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
@@ -79,11 +65,8 @@ public:
 ******************************************************************************/
 class LogicFloater : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
@@ -91,11 +74,8 @@ public:
 ******************************************************************************/
 class LogicCrazy : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
@@ -103,11 +83,8 @@ public:
 ******************************************************************************/
 class LogicSinker : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
@@ -115,11 +92,8 @@ public:
 ******************************************************************************/
 class LogicFragment : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
@@ -127,11 +101,8 @@ public:
 ******************************************************************************/
 class LogicStreak : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 /******************************************************************************
@@ -139,11 +110,8 @@ public:
 ******************************************************************************/
 class LogicExhaust : public LogicElement
 {
-private:
-
 public:
-	void advance(StorageElement* pElement) override;
-	void turn(StorageElement* pElement) override;
+	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
 };
 
 
