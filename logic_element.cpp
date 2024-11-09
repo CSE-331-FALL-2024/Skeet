@@ -75,7 +75,7 @@ void LogicShrapnel::advance(StorageElement* pElement, std::list<StorageElement*>
         kill(pElement);
     
     // Add a streek
-//    effects.push_back(new Streek())
+    effects.push_back(new StorageStreek(pElement->getPosition(), pElement->getVelocity()));
     
     // Move the bomb
     LogicElement::advance(pElement, effects);
@@ -88,7 +88,7 @@ void LogicShrapnel::advance(StorageElement* pElement, std::list<StorageElement*>
 void LogicMissile::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
 {
     // add the tail of the missile
-//    effects.push_back(new Exaust)
+    effects.push_back(new StorageExhaust(pElement->getPosition(), pElement->getVelocity()));
     
     // move the missile
     LogicElement::advance(pElement, effects);
