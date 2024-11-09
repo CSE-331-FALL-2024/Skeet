@@ -9,9 +9,20 @@
 
 #include "time.h"
 #include <sstream>
+#include "storage_time.h"
+
 using namespace std;
 
 #define SECONDS_STATUS 5.0
+
+
+
+Time::Time(StorageTime& storageTime):storageTime(storageTime), 
+    levelNumber(storageTime.getLevelNumberRef()),
+    framesLeft(storageTime.getFramesLeftRef())
+{
+    reset();
+}
 
 /************************
  * TIME reset
@@ -20,10 +31,15 @@ using namespace std;
 void Time::reset()
 {
     // first level is 30 seconds in length, the first 5 are the status time
-    levelLength = {0, 30, 30, 45, 45};
+    storageTime.setLevelLengths({0, 30, 30, 45, 45});
     levelNumber = 1;
-    framesLeft = FRAMES_PER_SECOND * levelLength[levelNumber];
+    framesLeft = FRAMES_PER_SECOND * storageTime.getLevelLength(levelNumber);
+
+    //levelLength = {0, 30, 30, 45, 45};
+    //levelNumber = 1;
+    //framesLeft = FRAMES_PER_SECOND * levelLength[levelNumber];
 }
+
 
 /************************
  * TIME IS PLAYING
@@ -41,9 +57,11 @@ bool Time::isPlaying() const
  ************************/
 double Time::percentLeft() const
 {
-    assert(levelNumber >= 0 && levelNumber < (int)levelLength.size());
+    //assert(levelNumber >= 0 && levelNumber < (int)levelLength.size());
+    assert(levelNumber >= 0 && levelNumber < storageTime.getLevelLengthSize());
     double framesInStatus = SECONDS_STATUS * FRAMES_PER_SECOND;
-    double framesInPlaying = (levelLength[levelNumber] - SECONDS_STATUS) * FRAMES_PER_SECOND;
+    //double framesInPlaying = (levelLength[levelNumber] - SECONDS_STATUS) * FRAMES_PER_SECOND;
+    double framesInPlaying = (storageTime.getLevelLength(levelNumber) - SECONDS_STATUS) * FRAMES_PER_SECOND;
     
     if (isStatus())
     {
@@ -67,9 +85,12 @@ double Time::percentLeft() const
  ************************/
 int Time::secondsLeft() const
 {
-    assert(levelNumber >= 0 && levelNumber < (int)levelLength.size());
+    //assert(levelNumber >= 0 && levelNumber < (int)levelLength.size());
+    assert(levelNumber >= 0 && levelNumber < storageTime.getLevelLengthSize());
     if (isStatus())
-        return secondsFromFrames(framesLeft) - levelLength[levelNumber] + (int)SECONDS_STATUS + 1;
+        //return secondsFromFrames(framesLeft) - levelLength[levelNumber] + (int)SECONDS_STATUS + 1;
+        return secondsFromFrames(framesLeft) - storageTime.getLevelLength(levelNumber) 
+            + (int)SECONDS_STATUS + 1;
     else
         return secondsFromFrames(framesLeft) + 1;
 }
@@ -81,7 +102,8 @@ int Time::secondsLeft() const
 bool Time::isStartLevel() const
 {
     if (isPlaying())
-        return framesLeft == FRAMES_PER_SECOND * (levelLength[levelNumber] - (int)SECONDS_STATUS) - 1;
+        //return framesLeft == FRAMES_PER_SECOND * (levelLength[levelNumber] - (int)SECONDS_STATUS) - 1;
+        return framesLeft == FRAMES_PER_SECOND * (storageTime.getLevelLength(levelNumber) - (int)SECONDS_STATUS) - 1;
     else
         return false;
 }
@@ -92,7 +114,8 @@ bool Time::isStartLevel() const
  ************************/
 void Time::operator++(int postfix)
 {
-    assert(levelNumber >= 0 && levelNumber < (int)levelLength.size());
+    //assert(levelNumber >= 0 && levelNumber < (int)levelLength.size());
+    assert(levelNumber >= 0 && levelNumber < storageTime.getLevelLengthSize());
     
     // do nothing in the game over scenario
     if (levelNumber == 0)
@@ -107,9 +130,12 @@ void Time::operator++(int postfix)
     {
         // move the level or...
         levelNumber++;
-        if (levelNumber < (int)levelLength.size())
-            framesLeft = FRAMES_PER_SECOND * levelLength[levelNumber];
-        
+        //if (levelNumber < (int)levelLength.size())
+        if (levelNumber < storageTime.getLevelLengthSize())
+        {
+            //framesLeft = FRAMES_PER_SECOND * levelLength[levelNumber];
+            framesLeft = FRAMES_PER_SECOND * storageTime.getLevelLength(levelNumber);
+        }
         // game over!
         else
             levelNumber = 0;
@@ -127,4 +153,12 @@ string Time::getText() const
     sout << "Time:  " << secondsLeft();
 
     return sout.str();
+}
+    // how long have we been in the level in seconds?
+int Time::secondsInLevel() const
+{
+	//assert(levelNumber < (int)levelLength.size());
+	assert(levelNumber < storageTime.getLevelLengthSize());
+	//return levelLength[levelNumber] - secondsFromFrames(framesLeft);
+	return storageTime.getLevelLength(levelNumber) - secondsFromFrames(framesLeft);
 }

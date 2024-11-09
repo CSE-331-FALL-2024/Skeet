@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include "skeet.h"
+
 using namespace std;
 
 
@@ -309,8 +310,9 @@ void Skeet::drawLevel() const
    if (bullseye)
       drawBullseye(gun.getAngle());
 
+   // TODO: Copy to Interface class
    // output the gun
-   gun.display();
+   gun.display(storage.gun);
          
    // output the birds, bullets, and fragments
    for (auto& pts : points)

@@ -142,8 +142,6 @@ copy "$(ProjectDir)packages\nupengl.core.redist.0.1.0.1\build\native\bin\x64\fre
     <ClCompile Include="skeet.cpp" />
     <ClCompile Include="storage.cpp" />
     <ClCompile Include="storage_element.cpp" />
-    <ClCompile Include="storage_gun.cpp" />
-    <ClCompile Include="storage_time.cpp" />
     <ClCompile Include="time.cpp" />
     <ClCompile Include="uiInteract.cpp" />
   </ItemGroup>

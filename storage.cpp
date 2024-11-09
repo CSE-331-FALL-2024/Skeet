@@ -5,16 +5,16 @@
 /******************************************************************************
 * STORAGE :: CONSTRUCTOR
 ******************************************************************************/
-Storage::Storage() : numBirds(0), points(0), numKilled(0)
+Storage::Storage() : numBirds(0), points(0), numKilled(0), time(), gun()
 {
 }
 
 /******************************************************************************
-* STORAGE :: GET POINTS
+* STORAGE :: GET POINTS (THE SCORE)
 ******************************************************************************/
 int Storage::getPoints()
 {
-	return 0;
+	return points;
 }
 
 /******************************************************************************
@@ -22,7 +22,7 @@ int Storage::getPoints()
 ******************************************************************************/
 int Storage::getNumKilled()
 {
-	return 0;
+	return numKilled;
 }
 
 /******************************************************************************
@@ -30,7 +30,7 @@ int Storage::getNumKilled()
 ******************************************************************************/
 int Storage::getNumMissed()
 {
-	return 0;
+	return numBirds - numKilled;
 }
 
 /******************************************************************************
@@ -38,13 +38,15 @@ int Storage::getNumMissed()
 ******************************************************************************/
 void Storage::add(StorageElement* pElement)
 {
+	elements.emplace_back(pElement);
 }
 
 /******************************************************************************
-* STORAGE :: RESET
+* STORAGE :: RESET remove all elements
 ******************************************************************************/
 void Storage::reset()
 {
+	elements.clear();
 }
 
 /******************************************************************************
@@ -52,7 +54,6 @@ void Storage::reset()
 ******************************************************************************/
 Storage::Iterator Storage::begin()
 {
-	// Return is correct
 	return Iterator(elements.begin(), elements.end());
 }
 
@@ -61,7 +62,6 @@ Storage::Iterator Storage::begin()
 ******************************************************************************/
 Storage::Iterator Storage::end()
 {
-	// Return is correct
 	return Iterator(elements.begin(), elements.end());
 }
 
@@ -70,7 +70,6 @@ Storage::Iterator Storage::end()
 ******************************************************************************/
 Storage::IteratorBird Storage::beginBird()
 {
-	// Return is INCORRECT, just a place holder: FIX
 	return IteratorBird(elements.begin(), elements.end());
 }
 
@@ -79,7 +78,6 @@ Storage::IteratorBird Storage::beginBird()
 ******************************************************************************/
 Storage::IteratorBird Storage::endBird()
 {
-	// Return is INCORRECT, just a place holder: FIX
 	return IteratorBird(elements.end(), elements.end());
 }
 
@@ -88,7 +86,6 @@ Storage::IteratorBird Storage::endBird()
 ******************************************************************************/
 Storage::IteratorBullet Storage::beginBullet()
 {
-	// Return is INCORRECT, just a place holder: FIX
 	return IteratorBullet(elements.begin(), elements.end());
 }
 
@@ -97,102 +94,149 @@ Storage::IteratorBullet Storage::beginBullet()
 ******************************************************************************/
 Storage::IteratorBullet Storage::endBullet()
 {
-	// Return is INCORRECT, just a place holder: FIX
 	return IteratorBullet(elements.end(), elements.end());
 }
 
 /******************************************************************************
 * STORAGE :: ITERATOR :: CONSTRUCTOR
 ******************************************************************************/
-Storage::Iterator::Iterator(IterType start, IterType stop)
+Storage::Iterator::Iterator(IterType start, IterType stop) : 
+	current(start), end(stop)
 {
 }
 
 /******************************************************************************
 * STORAGE :: ITERATOR :: OPERATOR!=()
 ******************************************************************************/
-//bool Storage::Iterator::operator!=(Iterator& rhs)
-//{
-//	return false;
-//}
+bool Storage::Iterator::operator!=(const Iterator& rhs)
+{
+	return current != rhs.current;
+}
 
 /******************************************************************************
 * STORAGE :: ITERATOR :: OPERATOR*()
 ******************************************************************************/
-//StorageElement* Storage::Iterator::operator*()
-//{
-//	return nullptr;
-//}
+StorageElement* Storage::Iterator::operator*()
+{
+	return *current;
+}
 
 /******************************************************************************
 * STORAGE :: ITERATOR :: OPERATOR++()
 ******************************************************************************/
-//Iterator& Storage::Iterator::operator++()
-//{
-//	// TODO: insert return statement here
-//}
+Storage::Iterator& Storage::Iterator::operator++()
+{
+	++current;
+	return *this;
+}
 
 /******************************************************************************
 * STORAGE :: ITERATOR BIRD :: CONSTRUCTOR
 ******************************************************************************/
-Storage::IteratorBird::IteratorBird(IterType start, IterType stop)
+Storage::IteratorBird::IteratorBird(IterType start, IterType stop) :
+	currentBird(start), endBird(stop)
 {
+	// Find first bird
+	if (currentBird != endBird)
+	{
+		StorageElement* element = *currentBird;
+		if (element->getStorageType() != StorageType::BIRD)
+		{
+			currentBird++;
+		}
+	}
 }
 
 /******************************************************************************
 * STORAGE :: ITERATOR BIRD :: OPERATOR!=()
 ******************************************************************************/
-//bool Storage::IteratorBird::operator!=(IteratorBird& rhs)
-//{
-//	return false;
-//}
+bool Storage::IteratorBird::operator!=(IteratorBird& rhs)
+{
+	return currentBird != rhs.currentBird;
+}
 
 /******************************************************************************
 * STORAGE :: ITERATOR BIRD :: OPERATOR*()
 ******************************************************************************/
-//StorageElement* Storage::IteratorBird::operator*()
-//{
-//	return nullptr;
-//}
+StorageElement* Storage::IteratorBird::operator*()
+{
+	return *currentBird;
+}
 
 /******************************************************************************
 * STORAGE :: ITERATOR BIRD :: OPERATOR++()
 ******************************************************************************/
-//IteratorBird& Storage::IteratorBird::operator++()
-//{
-//	// TODO: insert return statement here
-//}
+Storage::IteratorBird& Storage::IteratorBird::operator++()
+{
+	bool foundBird = false;
+	while (!foundBird && currentBird != endBird)
+	{
+		++currentBird;
+		if (currentBird != endBird)
+		{
+			StorageElement* element = *currentBird;
+			if (element->getStorageType() == StorageType::BIRD)
+			{
+				foundBird = true;
+			}
+		}
+	}
+	return *this;
+}
 
 /******************************************************************************
 * STORAGE :: ITERATOR BULLET :: CONSTRUCTOR
 ******************************************************************************/
-Storage::IteratorBullet::IteratorBullet(IterType start, IterType stop)
+Storage::IteratorBullet::IteratorBullet(IterType start, IterType stop):
+	currentBullet(start), endBullet(stop)
 {
+	// Find first bullet
+	if (currentBullet != endBullet)
+	{
+		StorageElement* element = *currentBullet;
+		if (element->getStorageType() != StorageType::BULLET)
+		{
+			currentBullet++;
+		}
+	}
 }
 
 /******************************************************************************
 * STORAGE :: ITERATOR BULLET :: OPERATOR!=()
 ******************************************************************************/
-//bool Storage::IteratorBullet::operator!=(IteratorBullet& rhs)
-//{
-//	return false;
-//}
+bool Storage::IteratorBullet::operator!=(IteratorBullet& rhs)
+{
+	return currentBullet != rhs.currentBullet;
+}
 
 /******************************************************************************
 * STORAGE :: ITERATOR BULLET :: OPERATOR*()
 ******************************************************************************/
-//StorageElement* Storage::IteratorBullet::operator*()
-//{
-//	return nullptr;
-//}
+StorageElement* Storage::IteratorBullet::operator*()
+{
+	return *currentBullet;
+}
 
 /******************************************************************************
 * STORAGE :: ITERATOR BULLET :: OPERATOR++()
 ******************************************************************************/
-//IteratorBullet& Storage::IteratorBullet::operator++()
-//{
-//	// TODO: insert return statement here
-//}
+Storage::IteratorBullet& Storage::IteratorBullet::operator++()
+{
+	bool foundBullet = false;
+	while (!foundBullet && currentBullet != endBullet)
+	{
+		++currentBullet;
+		if (currentBullet != endBullet)
+		{
+			StorageElement* element = *currentBullet;
+			if (element->getStorageType() == StorageType::BULLET)
+			{
+				foundBullet = true;
+			}
+		}
+	}
+	return *this;
+}
 
 
 

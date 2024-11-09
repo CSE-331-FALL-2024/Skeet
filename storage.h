@@ -16,8 +16,6 @@ private:
 	int numBirds;
 	int points;
 	int numKilled;
-	StorageTime time;
-	StorageGun gun;
 
 public:
 	Storage();
@@ -26,6 +24,8 @@ public:
 	int getNumMissed();
 	void add(StorageElement* pElement);
 	void reset();
+	StorageTime time;
+	StorageGun gun;
 
 	// Internal Class
 	class Iterator
@@ -33,11 +33,9 @@ public:
 	public:
 		using IterType = std::list<StorageElement*>::iterator;
 		Iterator(IterType start, IterType stop);
-		// STUBS ARE IN, COMMENTED OUT UNTIL IMPLIMENTED
-		// *********************************************
-		//bool operator!=(Iterator& rhs);
-		//StorageElement* operator*();
-		//Iterator& operator++();
+		bool operator!=(const Iterator& rhs);
+		StorageElement* operator*();
+		Iterator& operator++();
 	private:
 		IterType current;
 		IterType end;
@@ -49,13 +47,9 @@ public:
 	public:
 		using IterType = std::list<StorageElement*>::iterator;
 		IteratorBird(IterType start, IterType stop);
-		// STUBS ARE IN, COMMENTED OUT UNTIL IMPLIMENTED
-		// *********************************************
-		//bool operator!=(IteratorBird& rhs);
-		//StorageElement* operator*();
-		//IteratorBird& operator++();
-		
-		
+		bool operator!=(IteratorBird& rhs);
+		StorageElement* operator*();
+		IteratorBird& operator++();
 	private:
 		IterType currentBird;
 		IterType endBird;
@@ -66,24 +60,22 @@ public:
 	{
 	public:
 		using IterType = std::list<StorageElement*>::iterator;
-		// STUBS ARE IN, COMMENTED OUT UNTIL IMPLIMENTED
-		// *********************************************
 		IteratorBullet(IterType start, IterType stop);
-		//bool operator!=(IteratorBullet& rhs);
-		//StorageElement* operator*();
-		//IteratorBullet& operator++();
+		bool operator!=(IteratorBullet& rhs);
+		StorageElement* operator*();
+		IteratorBullet& operator++();
 	private:
 		IterType currentBullet;
 		IterType endBullet;
 
 	};
 
-	Iterator begin();				// Normal
-	Iterator end();					// Normal
-	IteratorBird beginBird();		// Need to check for StorageType::BIRD
-	IteratorBird endBird();			// Need to check for StorageType::BIRD
-	IteratorBullet beginBullet();	// Need to check for StorageType::BULLET
-	IteratorBullet endBullet();		// Need to check for StorageType::BULLET
+	Iterator begin();
+	Iterator end();	
+	IteratorBird beginBird();
+	IteratorBird endBird();	
+	IteratorBullet beginBullet();	
+	IteratorBullet endBullet();		
 
 
 };
