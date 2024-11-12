@@ -22,8 +22,8 @@ class Gun
 {
 public:
 	Gun(StorageGun& storageGun, const Position& pt);
-	// TODO: ** REMOVE display() - to be implemented in class Interface
-	void display(const StorageGun& storageGun) const;  
+	//// TODO: ** REMOVE display() - to be implemented in class Interface
+	//void display(const StorageGun& storageGun) const;  
 	void interact(int clockwise, int counterclockwise);
 	double getAngle() const { return storageGun.getAngleRef(); }
 

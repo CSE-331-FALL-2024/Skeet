@@ -117,7 +117,7 @@ void Logic::spawn()
 /******************************************************************************
 * LOGIC :: INPUT
 ******************************************************************************/
-void Logic::input(UserInput & ui)
+void Logic::input(const UserInput & ui)
 {
     // reset the game
     if (time.isGameOver() && ui.isSpace())

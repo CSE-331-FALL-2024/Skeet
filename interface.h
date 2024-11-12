@@ -14,10 +14,11 @@ class StorageGun;
 class Interface
 {
 private:
-	Logic logic;
+	static Position dimensions;
 
 public:
-	Interface();
+	Logic logic;
+	Interface(Position dimensions);
 
 	InterfaceStandard ifaceStandard;
 	InterfaceFloater ifaceFloater;
@@ -35,6 +36,9 @@ public:
 	void input(UserInput ui);
 	void processing();
 	void output();
+	void drawLevel();
+	void drawStatus();
+	void drawGun() const;
 };
 
 

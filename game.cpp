@@ -11,6 +11,7 @@
 #include "skeet.h"
 #include "position.h"
 #include "storage_element.h"
+#include "interface.h"
 
 #define WIDTH  800.0
 #define HEIGHT 800.0
@@ -31,19 +32,20 @@ void callBack(const UserInput* pUI, void* p)
 {
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
-   Skeet* pSkeet = (Skeet*)p;
+   Interface* pIface = (Interface*)p;
 
    // handle user input
-   pSkeet->interact(*pUI);
+   //pIface->interact(*pUI);
+   pIface->logic.input(*pUI);
 
    // move the stuff
-   pSkeet->animate();
+   pIface->logic.advance();
 
    // output the stuff
-   if (pSkeet->isPlaying())
-      pSkeet->drawLevel();
+   if (pIface->logic.isPlaying())
+      pIface->drawLevel();
    else
-      pSkeet->drawStatus();
+      pIface->drawStatus();
 }
 
 /*********************************
@@ -65,14 +67,15 @@ int main(int argc, char** argv)
    // initialize OpenGL
    Position dimensions(WIDTH, HEIGHT);
    UserInput ui(0, NULL,
-      "Skeet",
+      "Interface",
       dimensions);
 
    // initialize the game class
-   Skeet skeet(dimensions);
+   Interface iface(dimensions);
 
    // set everything into action
-   ui.run(callBack, &skeet);
+   ui.run(callBack, &iface);
 
    return 0;
 }
+

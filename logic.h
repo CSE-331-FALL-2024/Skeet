@@ -10,13 +10,13 @@ class Interface;
 class Logic
 {
 private:
-	Storage storage;
 	Interface* pInterface;
     Time time;
-    Gun gun;
 public:
 	Logic(Interface* iface);
 	LogicStandard logStandard;
+	Storage storage;
+    Gun gun;
 	LogicFloater logFloater;
 	LogicSinker logSinker;
 	LogicCrazy logCrazy;
@@ -31,7 +31,7 @@ public:
 
 	void advance();
 	void spawn();
-	void input(UserInput & ui);
+	void input(const UserInput & ui);
     void hitDetection();
     void removeDeadElements();
 	int getFramesLeft();
