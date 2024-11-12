@@ -1,11 +1,12 @@
 #include "logic_element.h"
 #include "storage_element.h"
+#include "storage.h"
 #include <cassert>
 
 /******************************************************************************
 * LOGIC ELEMENT :: MOVE
 ******************************************************************************/
-void LogicElement::advance(StorageElement*& pElement, std::list<StorageElement*> & effects)
+void LogicElement::advance(StorageElement* pElement, Storage & storage)
 {
     // inertia
     pElement->getPosition().add(pElement->getVelocity());
@@ -53,7 +54,7 @@ double LogicElement::randomFloat(double min, double max)
 /******************************************************************************
 * LOGIC BOMB :: ADVANCE
 ******************************************************************************/
-void LogicBomb::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicBomb::advance(StorageElement* pElement, Storage & storage)
 {
     // kill if it has been around too long
     pElement->getTimeToDie()--;
@@ -61,13 +62,22 @@ void LogicBomb::advance(StorageElement* pElement, std::list<StorageElement*> & e
         kill(pElement);
     
     // Move the bomb
-    LogicElement::advance(pElement, effects);
+    LogicElement::advance(pElement, storage);
+}
+
+/******************************************************************************
+* LOGIC BOMB :: DEATH
+******************************************************************************/
+void LogicBomb::death(Storage & storage, StorageElement * storageElement)
+{
+    for (int i = 0; i < 20; i++)
+       storage.add(new StorageShrapnel(storageElement));
 }
 
 /******************************************************************************
 * LOGIC SHRAPNEL :: ADVANCE
 ******************************************************************************/
-void LogicShrapnel::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicShrapnel::advance(StorageElement* pElement, Storage & storage)
 {
     // Kill if it has been around too long
     pElement->getTimeToDie()--;
@@ -75,41 +85,41 @@ void LogicShrapnel::advance(StorageElement* pElement, std::list<StorageElement*>
         kill(pElement);
     
     // Add a streek
-    effects.push_back(new StorageStreek(pElement->getPosition(), pElement->getVelocity()));
+    storage.add(new StorageStreek(pElement->getPosition(), pElement->getVelocity()));
     
     // Move the bomb
-    LogicElement::advance(pElement, effects);
+    LogicElement::advance(pElement, storage);
 }
 
 
 /******************************************************************************
 * LOGIC MISSILE :: ADVANCE
 ******************************************************************************/
-void LogicMissile::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicMissile::advance(StorageElement* pElement, Storage & storage)
 {
     // add the tail of the missile
-    effects.push_back(new StorageExhaust(pElement->getPosition(), pElement->getVelocity()));
+    storage.add(new StorageExhaust(pElement->getPosition(), pElement->getVelocity()));
     
     // move the missile
-    LogicElement::advance(pElement, effects);
+    LogicElement::advance(pElement, storage);
 }
 
 /******************************************************************************
 * LOGIC STANDARD :: ADVANCE
 ******************************************************************************/
-void LogicStandard::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicStandard::advance(StorageElement* pElement, Storage & storage)
 {
     // Drag
     pElement->getVelocity() *= 0.995;
     
     // Move
-    LogicElement::advance(pElement, effects);
+    LogicElement::advance(pElement, storage);
 }
 
 /******************************************************************************
 * LOGIC FLOATER :: ADVANCE
 ******************************************************************************/
-void LogicFloater::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicFloater::advance(StorageElement* pElement, Storage & storage)
 {
     // Drag
     pElement->getVelocity() *= 0.990;
@@ -118,13 +128,13 @@ void LogicFloater::advance(StorageElement* pElement, std::list<StorageElement*> 
     pElement->getVelocity().addDy(0.05);
     
     // Move
-    LogicElement::advance(pElement, effects);
+    LogicElement::advance(pElement, storage);
 }
 
 /******************************************************************************
 * LOGIC CRAZY :: ADVANCE
 ******************************************************************************/
-void LogicCrazy::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicCrazy::advance(StorageElement* pElement, Storage & storage)
 {
     // erratic turns eery half a second or so
     if (randomInt(0, 15) == 0)
@@ -134,25 +144,25 @@ void LogicCrazy::advance(StorageElement* pElement, std::list<StorageElement*> & 
     }
     
     // Move
-    LogicElement::advance(pElement, effects);
+    LogicElement::advance(pElement, storage);
 }
 
 /******************************************************************************
 * LOGIC SINKER :: ADVANCE
 ******************************************************************************/
-void LogicSinker::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicSinker::advance(StorageElement* pElement, Storage & storage)
 {
     // Gravity
     pElement->getVelocity().addDy(-0.07);
     
     // Move
-    LogicElement::advance(pElement, effects);
+    LogicElement::advance(pElement, storage);
 }
 
 /******************************************************************************
 * LOGIC FRAGMENT :: ADVANCE
 ******************************************************************************/
-void LogicFragment::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicFragment::advance(StorageElement* pElement, Storage & storage)
 {
     // Move inertia
     pElement->getPosition().add(pElement->getVelocity());
@@ -165,7 +175,7 @@ void LogicFragment::advance(StorageElement* pElement, std::list<StorageElement*>
 /******************************************************************************
 * LOGIC STREAK :: ADVANCE
 ******************************************************************************/
-void LogicStreak::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicStreak::advance(StorageElement* pElement, Storage & storage)
 {
     // Increase the age so it fades away
     pElement->getAge() -= 0.10;
@@ -174,7 +184,7 @@ void LogicStreak::advance(StorageElement* pElement, std::list<StorageElement*> &
 /******************************************************************************
 * LOGIC EXHAUST :: ADVANCE
 ******************************************************************************/
-void LogicExhaust::advance(StorageElement* pElement, std::list<StorageElement*> & effects)
+void LogicExhaust::advance(StorageElement* pElement, Storage & storage)
 {
     // Increase the age so it fades away
     pElement->getAge() -= 0.025;
