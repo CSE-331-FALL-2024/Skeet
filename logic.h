@@ -8,7 +8,6 @@ private:
 	Storage storage;
 	Interface* pInterface;
 public:
-	Logic();
 	Logic(Interface* interface);
 	void advance();
 	void spawn();

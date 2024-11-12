@@ -12,11 +12,11 @@ class StorageGun;
 class Interface
 {
 private:
-	Logic logic;
-
+	Logic logic = nullptr;
+	UserInput* ui;
 public:
 	Interface();
-	void input(UserInput ui);
+	void input(UserInput* pUi);
 	void processing();
 	void output();
 };

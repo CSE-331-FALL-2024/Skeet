@@ -7,19 +7,30 @@
 /******************************************************************************
 * INTERFACE :: CONSTRUCTOR
 ******************************************************************************/
-Interface::Interface()
+Interface::Interface(UserInput* pUi)
 {
 	// Create the logic
 	logic = Logic(this);
+	// Set the pointer to the user input
+	ui = pUi;
+}
+
+/******************************************************************************
+* INTERFACE :: GET UI
+******************************************************************************/
+UserInput* Interface::getUi()
+{
+    // return UsersInput
+    return ui;
 }
 
 /******************************************************************************
 * INTERFACE :: INPUT
 ******************************************************************************/
-void Interface::input(UserInput ui)
+void Interface::input()
 {
-    // Handle user input and pass it to the logic
-    logic.input();
+	// start logics input
+	logic.input();
 }
 
 /******************************************************************************
@@ -28,7 +39,9 @@ void Interface::input(UserInput ui)
 void Interface::processing()
 {
     // Process game logic
-    logic.advance();
+    if (logic.isPlaying() == true && logic.isGameOver() == false) {
+        logic.advance();
+    }
 }
 
 /******************************************************************************

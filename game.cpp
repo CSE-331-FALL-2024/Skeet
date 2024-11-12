@@ -11,6 +11,7 @@
 #include "skeet.h"
 #include "position.h"
 #include "storage_element.h"
+#include "interface.h" // main interface
 
 #define WIDTH  800.0
 #define HEIGHT 800.0

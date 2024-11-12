@@ -132,6 +132,7 @@ copy "$(ProjectDir)packages\nupengl.core.redist.0.1.0.1\build\native\bin\x64\fre
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gun.cpp" />
+    <ClCompile Include="helper.cpp" />
     <ClCompile Include="interface.cpp" />
     <ClCompile Include="interface_element.cpp" />
     <ClCompile Include="logic.cpp" />
