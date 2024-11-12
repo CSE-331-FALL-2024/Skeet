@@ -48,7 +48,9 @@ public:
 	Velocity& getVelocity() { return v; }
 	double& getRadius() { return radius; }
 	int& getPoints() { return points; }
+    void setPoints(int newPoints) { points = newPoints; }
     int& getValue() { return value; }
+    void setValue(int newValue) { value = newValue; }
     double& getAge() { return age; }
     double& getSize() { return size; }
     int& getTimeToDie() { return timeToDie; }
@@ -200,7 +202,7 @@ public:
 class StorageShrapnel : public StorageBullet
 {
 public:
-    StorageShrapnel(StorageBomb & bomb);
+    StorageShrapnel(StorageElement * bomb);
 };
 
 /******************************************************************************

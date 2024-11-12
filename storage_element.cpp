@@ -142,14 +142,14 @@ StorageFragment::StorageFragment(const Position & pt, const Velocity & v) : Stor
 /******************************************************************************
 * STORAGE SHRAPNEL :: CONSTRUCTOR
 ******************************************************************************/
-StorageShrapnel::StorageShrapnel(StorageBomb& bomb)
+StorageShrapnel::StorageShrapnel(StorageElement * bomb)
 {
     // how long will this one live?
     timeToDie = randomIntStorage(5, 15);
     
     // The speed and direction is random
     v.set(randomFloatStorage(0.0, 6.2), randomFloatStorage(10.0, 15.0));
-    pt = bomb.getPosition();
+    pt = bomb->getPosition();
 
     value = 0;
     

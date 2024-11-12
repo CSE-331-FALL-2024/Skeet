@@ -3,6 +3,7 @@
 #include "storage_element.h"
 
 class StorageElement;
+class Storage;
 
 /******************************************************************************
 * LOGIC ELEMENT
@@ -14,9 +15,9 @@ protected:
     int randomInt(int min, int max);
     double randomFloat(double min, double max);
 public:
-    void kill(StorageElement*& pElement) { pElement->setIsDead(true); };
-	virtual void advance(StorageElement*& pElement, std::list<StorageElement*> & effects);
-    virtual void death(std::list<StorageElement *> & bullets) {};
+    void kill(StorageElement* pElement) { pElement->setIsDead(true); };
+	virtual void advance(StorageElement* pElement, Storage & storage);
+    virtual void death(Storage & storage) {};
 };
 
 /******************************************************************************
@@ -30,7 +31,8 @@ class LogicPellet : public LogicElement {};
 class LogicBomb : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
+    void death(Storage & storage, StorageElement * storageElement);
 };
 
 /******************************************************************************
@@ -39,7 +41,7 @@ public:
 class LogicShrapnel : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 /******************************************************************************
@@ -48,7 +50,7 @@ public:
 class LogicMissile : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 /******************************************************************************
@@ -57,7 +59,7 @@ public:
 class LogicStandard : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 /******************************************************************************
@@ -66,7 +68,7 @@ public:
 class LogicFloater : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 /******************************************************************************
@@ -75,7 +77,7 @@ public:
 class LogicCrazy : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 /******************************************************************************
@@ -84,7 +86,7 @@ public:
 class LogicSinker : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 /******************************************************************************
@@ -93,7 +95,7 @@ public:
 class LogicFragment : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 /******************************************************************************
@@ -102,7 +104,7 @@ public:
 class LogicStreak : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 /******************************************************************************
@@ -111,7 +113,7 @@ public:
 class LogicExhaust : public LogicElement
 {
 public:
-	void advance(StorageElement* pElement, std::list<StorageElement*> & effects);
+	void advance(StorageElement* pElement, Storage & storage);
 };
 
 
