@@ -1,33 +1,25 @@
 #include "logic.h"
 #include "storage_element.h"
 #include "logic_element.h"
+#include "bird.h"
+#include "bullet.h"
+#include "points.h"
+#include "effects.h"
 
-/******************************************************************
- * RANDOM
- * This function generates a random number.
- *
- *    INPUT:   min, max : The number of values (min <= num <= max)
- *    OUTPUT   <return> : Return the integer
- ****************************************************************/
-int random(int min, int max)
-{
-   assert(min < max);
-   int num = (rand() % (max - min)) + min;
-   assert(min <= num && num <= max);
+// Forward Declared
+int random(int min, int max);
 
-   return num;
-}
+
+
 /******************************************************************************
 * LOGIC :: CONSTRUCTOR
 ******************************************************************************/
-<<<<<<< HEAD
-
-Logic::Logic(Interface* interface)
-=======
-Logic::Logic(Interface* interface) : gun(storage.gun, Position(750, 750)), time(storage.time)
->>>>>>> SOC-logic
+Logic::Logic(Interface* iface) : gun(storage.gun, Position(750, 750)), 
+    time(storage.time), logStandard(), logFloater(), logSinker(),
+    logCrazy(), logPellet(), logBomb(), logShrapnel(), logMissile(),
+    logFragment(), logStreak(), logExhaust() 
 {
-	pInterface = interface;
+	pInterface = iface;
 }
 
 /******************************************************************************
@@ -57,11 +49,12 @@ void Logic::spawn()
           size = 30.0;
           // spawns when there is nothing on the screen
           if (*it == nullptr && random(0, 15) == 1)
-              storage.add(new StorageStandard(size, 7.0));
+              storage.add(new Standard(size, 7.0, 10, pInterface, this));
+          
           
           // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-              storage.add(new StorageStandard(size, 7.0));
+              storage.add(new Standard(size, 7.0, 10, pInterface, this));
           break;
           
        // two kinds of birds in level 2
@@ -69,14 +62,14 @@ void Logic::spawn()
           size = 25.0;
           // spawns when there is nothing on the screen
           if (*it == nullptr && random(0, 15) == 1)
-            storage.add(new StorageStandard(size, 7.0, 12));
+            storage.add(new Standard(size, 7.0, 12, pInterface, this));
 
           // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-            storage.add(new StorageStandard(size, 5.0, 12));
+            storage.add(new Standard(size, 5.0, 12, pInterface, this));
           // spawn every 3 seconds
           if (random(0, 3 * 30) == 1)
-             storage.add(new StorageSinker(size));
+             storage.add(new Sinker(size, 4.5, 20 , pInterface, this));
           break;
        
        // three kinds of birds in level 3
@@ -84,16 +77,16 @@ void Logic::spawn()
           size = 20.0;
           // spawns when there is nothing on the screen
           if (*it == nullptr && random(0, 15) == 1)
-              storage.add(new StorageStandard(size, 5.0, 15));
+              storage.add(new Standard(size, 5.0, 15, pInterface, this));
           // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-              storage.add(new StorageStandard(size, 5.0, 15));
+              storage.add(new Standard(size, 5.0, 15, pInterface, this));
           // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-              storage.add(new StorageSinker(size, 4.0, 22));
+              storage.add(new Sinker(size, 4.0, 22, pInterface, this));
           // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-              storage.add(new StorageFloater(size));
+              storage.add(new Floater(size, 5.0, 15, pInterface, this));
           break;
           
        // three kinds of birds in level 4
@@ -101,19 +94,19 @@ void Logic::spawn()
           size = 15.0;
           // spawns when there is nothing on the screen
           if (*it == nullptr && random(0, 15) == 1)
-            storage.add(new StorageStandard(size, 4.0, 18));
+            storage.add(new Standard(size, 4.0, 18, pInterface, this));
           // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-            storage.add(new StorageStandard(size, 4.0, 18));
+            storage.add(new Standard(size, 4.0, 18, pInterface, this));
             // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-            storage.add(new StorageSinker(size, 3.5, 25));
+            storage.add(new Sinker(size, 3.5, 25, pInterface, this));
           // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-            storage.add(new StorageFloater(size, 4.0, 25));
+            storage.add(new Floater(size, 4.0, 25, pInterface, this));
           // spawn every 4 seconds
           if (random(0, 4 * 30) == 1)
-            storage.add(new StorageCrazy(size));
+            storage.add(new Crazy(size, 4.5, 30, pInterface, this));
           break;
           
        default:
@@ -141,13 +134,13 @@ void Logic::input(UserInput & ui)
 
     // a pellet can be shot at any time
     if (ui.isSpace())
-       p = new StoragePellet(gun.getAngle());
+       p = new Pellet(gun.getAngle(), 15.0, pInterface, this);
     // missiles can be shot at level 2 and higher
     else if (ui.isM() && time.level() > 1)
-       p = new StorageMissile(gun.getAngle());
+       p = new Missile(gun.getAngle(), 10.0, pInterface, this);
     // bombs can be shot at level 3 and higher
     else if (ui.isB() && time.level() > 2)
-       p = new StorageBomb(gun.getAngle());
+       p = new Bomb(gun.getAngle(), 10.0, pInterface, this);
     
     // NOT IMPLEMENTED
     //bullseye = ui.isShift();
@@ -179,13 +172,15 @@ void Logic::hitDetection()
                                bulletElement->getPosition(), bulletElement->getVelocity()))
            {
               for (int i = 0; i < 25; i++)
-                 storage.add(new StorageFragment(bulletElement->getPosition(), bulletElement->getVelocity()));
+                 storage.add(new Fragment(bulletElement->getPosition(), bulletElement->getVelocity(),pInterface, this));
                birdElement->getLogicElementPtr()->kill(birdElement);
                bulletElement->getLogicElementPtr()->kill(bulletElement);
                // NOT SURE HOW WE ARE USING THIS
                // hitRatio.adjust(1);
-               bulletElement->setValue(-(birdElement->getPoints()));
-               birdElement->setPoints(0);
+               //bulletElement->setValue(-(birdElement->getPoints()));
+               bulletElement->getValue() = int(birdElement->getPoints());
+               //birdElement->setPoints(0);
+               birdElement->getPoints() = 0;
            }
        }
 }
@@ -200,7 +195,7 @@ void Logic::removeDeadElements()
        if ((*it)->getIsDead())
        {
           if ((*it)->getPoints())
-             storage.add(new StoragePoint((*it)->getPosition(), (*it)->getPoints()));
+             storage.add(new Points((*it)->getPosition(), (*it)->getPoints()));
           // ARE WE HANDLING SCORE?
           // score.adjust((*it)->getPoints());
           // Fixed Memory Leak
@@ -218,7 +213,7 @@ void Logic::removeDeadElements()
        {
            (*it)->getLogicElementPtr()->kill(*it);
           int value = -(*it)->getValue();
-          storage.add(new StoragePoint((*it)->getPosition(), value));
+          storage.add(new Points((*it)->getPosition(), value));
 //          score.adjust(value);
           // Fixed Memory Leak
           delete (*it);
@@ -254,12 +249,8 @@ void Logic::removeDeadElements()
 ******************************************************************************/
 int Logic::getFramesLeft()
 {
-<<<<<<< HEAD
 	// TODO: Placeholder - Remove
 	return 0;
-=======
-    return 0;
->>>>>>> SOC-logic
 }
 
 /******************************************************************************
@@ -267,24 +258,14 @@ int Logic::getFramesLeft()
 ******************************************************************************/
 int Logic::getLevelNumber()
 {
-<<<<<<< HEAD
-	// TODO: Placeholder - Remove
-	return 0;
-=======
     return time.level();
->>>>>>> SOC-logic
 }
 /******************************************************************************
 * LOGIC :: GET GUN ANGLE
 ******************************************************************************/
 double Logic::getGunAngle()
 {
-<<<<<<< HEAD
-	// TODO: Placeholder - Remove
-	return 0.0;
-=======
     return gun.getAngle();
->>>>>>> SOC-logic
 }
 
 /******************************************************************************
@@ -292,12 +273,7 @@ double Logic::getGunAngle()
 ******************************************************************************/
 bool Logic::isPlaying()
 {
-<<<<<<< HEAD
-	// TODO: Placeholder - Remove
-	return true;
-=======
     return time.isPlaying();
->>>>>>> SOC-logic
 }
 
 /******************************************************************************
@@ -305,12 +281,7 @@ bool Logic::isPlaying()
 ******************************************************************************/
 bool Logic::isGameOver()
 {
-<<<<<<< HEAD
-	// TODO: Placeholder - Remove
-	return false;
-=======
     return time.isGameOver();
->>>>>>> SOC-logic
 }
 
 /******************************************************************************
@@ -318,10 +289,21 @@ bool Logic::isGameOver()
 ******************************************************************************/
 double Logic::getPercentLeft()
 {
-<<<<<<< HEAD
-	// TODO: Placeholder - Remove
-	return 0.0;
-=======
     return time.percentLeft();
->>>>>>> SOC-logic
+}
+
+/******************************************************************
+ * RANDOM
+ * This function generates a random number.
+ *
+ *    INPUT:   min, max : The number of values (min <= num <= max)
+ *    OUTPUT   <return> : Return the integer
+ ****************************************************************/
+int random(int min, int max)
+{
+   assert(min < max);
+   int num = (rand() % (max - min)) + min;
+   assert(min <= num && num <= max);
+
+   return num;
 }

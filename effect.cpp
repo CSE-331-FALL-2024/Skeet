@@ -9,6 +9,8 @@
 
 #include "effect.h"
 #include <cassert>
+#include "interface.h"
+#include "logic.h"
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -55,8 +57,10 @@ double random(double min, double max)
 /************************************************************************
  * FRAGMENT constructor
  *************************************************************************/
-Fragment::Fragment(const Position & pt, const Velocity & v) : Effect(pt)
+Fragment::Fragment(const Position & pt, const Velocity & v, Interface* iface, Logic* logic) : Effect(pt)
 {
+    this->pIfaceElement = &iface->ifaceFragment;
+    this->pLogElement = &logic->logFragment;
    // the velocity is a random kick plus the velocity of the thing that died
    this->v.setDx(v.getDx() * 0.5 + random(-6.0, 6.0));
    this->v.setDy(v.getDy() * 0.5 + random(-6.0, 6.0));
@@ -71,8 +75,10 @@ Fragment::Fragment(const Position & pt, const Velocity & v) : Effect(pt)
 /************************************************************************
  * STREEK constructor
  *************************************************************************/
-Streek::Streek(const Position & pt, Velocity v) : Effect(pt)
+Streak::Streak(const Position & pt, Velocity v, Interface* iface, Logic* logic) : Effect(pt)
 {
+    this->pIfaceElement = &iface->ifaceStreak;
+    this->pLogElement = &logic->logStreak;
    ptEnd = pt;
    v *= -1.0;
    ptEnd += v;
@@ -84,8 +90,10 @@ Streek::Streek(const Position & pt, Velocity v) : Effect(pt)
 /************************************************************************
  * EXHAUST constructor
  *************************************************************************/
-Exhaust::Exhaust(const Position & pt, Velocity v) : Effect(pt)
+Exhaust::Exhaust(const Position & pt, Velocity v, Interface* iface, Logic* logic) : Effect(pt)
 {
+    this->pIfaceElement = &iface->ifaceExhaust;
+    this->pLogElement = &logic->logExhaust;
     ptEnd = pt;
     v *= -1.0;
     ptEnd += v;
@@ -127,9 +135,9 @@ void Fragment::render() const
 
 /************************************************************************
  * STREEK RENDER
- * Draw the shrapnel streek on the screen
+ * Draw the shrapnel streak on the screen
  *************************************************************************/
-void Streek::render() const
+void Streak::render() const
 {
     // Do nothing if we are already dead
     if (isDead())
@@ -191,9 +199,9 @@ void Fragment :: fly()
 
 /************************************************************************
  * STREEK FLY
- * The streek will just fade away
+ * The streak will just fade away
  *************************************************************************/
-void Streek :: fly()
+void Streak :: fly()
 {
     // move it forward with inertia (no gravity)
 //    pt += v;

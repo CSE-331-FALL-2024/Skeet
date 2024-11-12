@@ -12,20 +12,25 @@
 #include "effect.h"
 #include <list>
 #include <cassert>
+#include "storage_element.h"
+
+class Interface;
+class Logic;
 
 /*********************************************
  * BULLET
  * Something to shoot something else
  *********************************************/
-class Bullet
+class Bullet : public StorageBullet
 {
 protected:
-   static Position dimensions;   // size of the screen
-   Position pt;                  // position of the bullet
-   Velocity v;                // velocity of the bullet
-   double radius;             // the size (radius) of the bullet
-   bool dead;                 // is this bullet dead?
-   int value;                 // how many points does this cost?
+    // Already declared in StorageBullet
+   //static Position dimensions;   // size of the screen
+   //Position pt;                  // position of the bullet
+   //Velocity v;                // velocity of the bullet
+   //double radius;             // the size (radius) of the bullet
+   //bool dead;                 // is this bullet dead?
+   //int value;                 // how many points does this cost?
     
 public:
    Bullet(double angle = 0.0, double speed = 30.0, double radius = 5.0, int value = 1);
@@ -42,10 +47,10 @@ public:
    int getValue()          const { return value;  }
 
    // special functions
-   virtual void death(std::list<Bullet *> & bullets) {}
-   virtual void output() = 0;
-   virtual void input(bool isUp, bool isDown, bool isB) {}
-   virtual void move(std::list<Effect*> &effects);
+   //virtual void death(std::list<Bullet *> & bullets) {}
+   //virtual void output() = 0;
+   //virtual void input(bool isUp, bool isDown, bool isB) {}
+   //virtual void move(std::list<Effect*> &effects);
 
 protected:
    bool isOutOfBounds() const
@@ -53,11 +58,11 @@ protected:
       return (pt.getX() < -radius || pt.getX() >= dimensions.getX() + radius ||
          pt.getY() < -radius || pt.getY() >= dimensions.getY() + radius);
    }
-   void drawLine(const Position& begin, const Position& end,
-                 double red = 1.0, double green = 1.0, double blue = 1.0) const;
+   //void drawLine(const Position& begin, const Position& end,
+   //              double red = 1.0, double green = 1.0, double blue = 1.0) const;
 
-   void drawDot(const Position& point, double radius = 2.0,
-                double red = 1.0, double green = 1.0, double blue = 1.0) const;
+   //void drawDot(const Position& point, double radius = 2.0,
+   //             double red = 1.0, double green = 1.0, double blue = 1.0) const;
    int    random(int    min, int    max);
    double random(double min, double max);
 };
@@ -69,9 +74,9 @@ protected:
 class Pellet : public Bullet
 {
 public:
-   Pellet(double angle, double speed = 15.0) : Bullet(angle, speed, 1.0, 1) {}
+    Pellet(double angle, double speed = 15.0, Interface* iface = nullptr, Logic* logic = nullptr);
    
-   void output();
+   //void output();
 };
 
 /*********************
@@ -81,13 +86,14 @@ public:
 class Bomb : public Bullet
 {
 private:
-   int timeToDie;
+    // already declared in StorageElement
+   //int timeToDie;
 public:
-   Bomb(double angle, double speed = 10.0) : Bullet(angle, speed, 4.0, 4), timeToDie(60) {}
+    Bomb(double angle, double speed = 10.0, Interface* iface = nullptr, Logic* logic = nullptr);
    
-   void output();
-   void move(std::list<Effect*> & effects);
-   void death(std::list<Bullet *> & bullets);
+   //void output();
+   //void move(std::list<Effect*> & effects);
+   //void death(std::list<Bullet *> & bullets);
 };
 
 /*********************
@@ -97,24 +103,14 @@ public:
 class Shrapnel : public Bullet
 {
 private:
-   int timeToDie;
+    // already declared in StorageElement
+   //int timeToDie;
 public:
-   Shrapnel(const Bomb & bomb)
-   {
-      // how long will this one live?
-      timeToDie = random(5, 15);
-      
-      // The speed and direction is random
-      v.set(random(0.0, 6.2), random(10.0, 15.0));
-      pt = bomb.getPosition();
+    Shrapnel(const Bomb& bomb, Interface* iface = nullptr, Logic* logic = nullptr);
 
-      value = 0;
-      
-      radius = 3.0;
-   }
    
-   void output();  
-   void move(std::list<Effect*> & effects);
+   //void output();  
+   //void move(std::list<Effect*> & effects);
 };
 
 
@@ -125,9 +121,9 @@ public:
 class Missile : public Bullet
 {
 public:
-   Missile(double angle, double speed = 10.0) : Bullet(angle, speed, 1.0, 3) {}
+    Missile(double angle, double speed = 10.0, Interface* iface = nullptr, Logic* logic = nullptr);
    
-   void output();
+   //void output();
    void input(bool isUp, bool isDown, bool isB)
    {
       if (isUp)
@@ -135,5 +131,5 @@ public:
       if (isDown)
          v.turn(-0.04);
    }
-   void move(std::list<Effect*> & effects);
+   //void move(std::list<Effect*> & effects);
 };

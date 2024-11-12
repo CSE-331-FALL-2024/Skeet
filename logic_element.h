@@ -15,7 +15,8 @@ protected:
     int randomInt(int min, int max);
     double randomFloat(double min, double max);
 public:
-    void kill(StorageElement* pElement) { pElement->setIsDead(true); };
+    //void kill(StorageElement* pElement) { pElement->setIsDead(true); };
+    void kill(StorageElement* pElement) { pElement->getIsDead() = true; };
 	virtual void advance(StorageElement* pElement, Storage & storage);
     virtual void death(Storage & storage) {};
 };

@@ -9,11 +9,16 @@
 
 #pragma once
 #include "position.h"
+#include "storage_element.h"
+
+// Forward Declare
+class Logic;
+class Interface;
 
 /**********************
  * Effect: stuff that is not interactive
  **********************/
-class Effect
+class Effect : public StorageEffect
 {
 protected:
     Position pt;      // location of the effect
@@ -43,7 +48,7 @@ private:
    double size;   // size of the fragment
 public:
     // create a fragment based on the velocity and position of the bullet
-    Fragment(const Position & pt, const Velocity & v);
+    Fragment(const Position & pt, const Velocity & v, Interface* iface = nullptr, Logic* logic = nullptr);
     
     // draw it
     void render() const;
@@ -56,13 +61,13 @@ public:
  * STREEK
  * Stuff that trails off the back of shrapnel
  **********************/
-class Streek : public Effect
+class Streak : public Effect
 {
 private:
    Position ptEnd;
 public:
     // create a fragment based on the velocity and position of the bullet
-    Streek(const Position & pt, Velocity v);
+    Streak(const Position & pt, Velocity v, Interface* iface = nullptr, Logic* logic = nullptr);
     
     // draw it
     void render() const;
@@ -81,7 +86,7 @@ private:
    Position ptEnd;
 public:
     // create a fragment based on the velocity and position of the bullet
-    Exhaust(const Position & pt, Velocity v);
+    Exhaust(const Position & pt, Velocity v, Interface* iface = nullptr, Logic* logic = nullptr);
     
     // draw it
     void render() const;

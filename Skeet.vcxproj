@@ -150,6 +150,7 @@ copy "$(ProjectDir)packages\nupengl.core.redist.0.1.0.1\build\native\bin\x64\fre
     <ClInclude Include="bullet.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="gun.h" />
+    <ClInclude Include="draw_helper.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="interface_element.h" />
     <ClInclude Include="logic.h" />

@@ -32,6 +32,10 @@
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
 #endif // _WIN32
 
+
+#include "logic.h"
+#include "interface.h"
+
  /******************************************************************
  * RANDOM
  * These functions generate a random number.
@@ -48,7 +52,7 @@ double randomValue(double min, double max)
   * POINTS Constructor
   * Create a new points value
   *********************************************/
-Points::Points(const Position & pt, int value)
+Points::Points(const Position & pt, int value, Interface* iface, Logic* logic)
 {
    // initial position is where the bullet was last seen
    this->pt = pt;

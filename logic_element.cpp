@@ -2,6 +2,7 @@
 #include "storage_element.h"
 #include "storage.h"
 #include <cassert>
+#include "effects.h"
 
 /******************************************************************************
 * LOGIC ELEMENT :: MOVE
@@ -70,8 +71,9 @@ void LogicBomb::advance(StorageElement* pElement, Storage & storage)
 ******************************************************************************/
 void LogicBomb::death(Storage & storage, StorageElement * storageElement)
 {
-    for (int i = 0; i < 20; i++)
-       storage.add(new StorageShrapnel(storageElement));
+    // TODO: Implement
+    //for (int i = 0; i < 20; i++)
+    //   storage.add(new Shrapnel(storageElement));
 }
 
 /******************************************************************************
@@ -84,8 +86,9 @@ void LogicShrapnel::advance(StorageElement* pElement, Storage & storage)
     if (!pElement->getTimeToDie())
         kill(pElement);
     
+    // TODO: Implement
     // Add a streek
-    storage.add(new StorageStreek(pElement->getPosition(), pElement->getVelocity()));
+    //storage.add(new Streek(pElement->getPosition(), pElement->getVelocity()));
     
     // Move the bomb
     LogicElement::advance(pElement, storage);
@@ -97,8 +100,9 @@ void LogicShrapnel::advance(StorageElement* pElement, Storage & storage)
 ******************************************************************************/
 void LogicMissile::advance(StorageElement* pElement, Storage & storage)
 {
+    // TODO: Implement
     // add the tail of the missile
-    storage.add(new StorageExhaust(pElement->getPosition(), pElement->getVelocity()));
+    //storage.add(new Exhaust(pElement->getPosition(), pElement->getVelocity()));
     
     // move the missile
     LogicElement::advance(pElement, storage);
