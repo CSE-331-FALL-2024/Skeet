@@ -3,12 +3,28 @@
 #include "uiInteract.h"
 #include "storage_gun.h"
 #include "storage_element.h"
+#include "interface_element.h"
 
 /******************************************************************************
-* INTERFACE :: CONSTRUCTOR
+* CONSTRUCTOR DEFAULT
+******************************************************************************/
+Interface::Interface()
+{
+    //Probably wont use this method
+
+    // Create the logic
+    logic = Logic(this);
+    // Set the pointer to the user input
+    ui = new UserInput();
+}
+
+/******************************************************************************
+* CONSTRUCTOR WITH USER INPUT
 ******************************************************************************/
 Interface::Interface(UserInput* pUi)
 {
+    // Use this constructor to set the UserInput as a attribute
+
 	// Create the logic
 	logic = Logic(this);
 	// Set the pointer to the user input
@@ -16,16 +32,16 @@ Interface::Interface(UserInput* pUi)
 }
 
 /******************************************************************************
-* INTERFACE :: GET UI
+* GET UI
+* Get the UserInput from the Interface
 ******************************************************************************/
 UserInput* Interface::getUi()
 {
-    // return UsersInput
     return ui;
 }
 
 /******************************************************************************
-* INTERFACE :: INPUT
+* INPUT
 ******************************************************************************/
 void Interface::input()
 {
@@ -34,7 +50,7 @@ void Interface::input()
 }
 
 /******************************************************************************
-* INTERFACE :: PROCESSING
+* PROCESSING
 ******************************************************************************/
 void Interface::processing()
 {
@@ -49,7 +65,11 @@ void Interface::processing()
 ******************************************************************************/
 void Interface::output()
 {
-    // Get the iterator from logic
+    // Make a interface element that acts like a visitor to go to 
+    // each element to draw it
+    InterfaceElement* pInterface;
+    
+    // Get iterator from logic
     auto elementsBegin = logic.getElementsBegin();
     auto elementsEnd = logic.getElementsEnd();
 
@@ -57,8 +77,9 @@ void Interface::output()
     // Iterate through all elements and call their draw functions
     for (auto it = elementsBegin; it != elementsEnd; ++it)
     {
-		StorageEffect* pElement = *it;
-		pElement->draw(pElement);
+        
+        StorageElement* pElement = *it;
+        pInterface->draw(pElement);
     }
 }
 

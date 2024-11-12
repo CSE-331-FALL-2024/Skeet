@@ -5,6 +5,7 @@
 // Forward Declarations
 class UserInput;
 class StorageGun;
+class InterfaceElement;
 
 /******************************************************************************
 * CLASS INTERFACE
@@ -16,11 +17,11 @@ private:
 	UserInput* ui;
 public:
 	Interface();
-	void input(UserInput* pUi);
+	Interface(UserInput* pUi);
+
+	UserInput* getUi();
+
+	void input();
 	void processing();
 	void output();
 };
-
-
-
-
