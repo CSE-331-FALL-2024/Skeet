@@ -1,13 +1,15 @@
 #pragma once
 #include "storage.h"
-
+class Interface;
 
 class Logic
 {
 private:
 	Storage storage;
+	Interface* pInterface;
 public:
 	Logic();
+	Logic(Interface* interface);
 	void advance();
 	void spawn();
 	void input();
@@ -23,5 +25,11 @@ public:
 	bool isPlaying();
 	bool isGameOver();
 	double getPercentLeft();
+Storage::Iterator getElementsBegin() {
+	return storage.begin();
+}
+Storage::Iterator getElementsEnd() {
+	return storage.end();
+}
 };
 
