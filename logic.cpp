@@ -157,8 +157,6 @@ void Logic::input(UserInput & ui)
     //    bullet->input(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft(), ui.isB());
 }
 
-//for (auto it = getElementsBegin(); it != getElementsEnd(); ++it)
-
 /******************************************************************************
 * LOGIC :: HIT DETECTION
 ******************************************************************************/
