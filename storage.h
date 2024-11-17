@@ -23,22 +23,26 @@ public:
 	int getNumKilled();
 	int getNumMissed();
 	void add(StorageElement* pElement);
+
 	void reset();
 	StorageTime time;
 	StorageGun gun;
 
 	// Internal Class
-	class Iterator
+	class Iterator 
 	{
 	public:
 		using IterType = std::list<StorageElement*>::iterator;
 		Iterator(IterType start, IterType stop);
+		Iterator(IterType start, IterType stop, std::list<StorageElement*>* container);
 		bool operator!=(const Iterator& rhs);
 		StorageElement* operator*();
 		Iterator& operator++();
+		Iterator& erase();
 	private:
 		IterType current;
 		IterType end;
+		std::list<StorageElement*>* container;
 	};
 
 	// Internal Class
@@ -47,12 +51,15 @@ public:
 	public:
 		using IterType = std::list<StorageElement*>::iterator;
 		IteratorBird(IterType start, IterType stop);
+		IteratorBird(IterType start, IterType stop, std::list<StorageElement*>* container);
 		bool operator!=(IteratorBird& rhs);
 		StorageElement* operator*();
 		IteratorBird& operator++();
+		IteratorBird& erase();
 	private:
 		IterType currentBird;
 		IterType endBird;
+		std::list<StorageElement*>* container;
 	};
 
 	// Internal Class
@@ -61,12 +68,15 @@ public:
 	public:
 		using IterType = std::list<StorageElement*>::iterator;
 		IteratorBullet(IterType start, IterType stop);
+		IteratorBullet(IterType start, IterType stop, std::list<StorageElement*>* container);
 		bool operator!=(IteratorBullet& rhs);
 		StorageElement* operator*();
 		IteratorBullet& operator++();
+		IteratorBullet& erase();
 	private:
 		IterType currentBullet;
 		IterType endBullet;
+		std::list<StorageElement*>* container;
 
 	};
 

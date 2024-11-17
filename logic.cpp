@@ -203,6 +203,8 @@ void Logic::removeDeadElements()
           // ^^^^^^^^^^^^^^^^^
           // NEEDS TO BE IMPLEMENTED
           // it = storage.erase(it);
+          it.erase();
+          
        }
        else
           ++it;
@@ -220,6 +222,7 @@ void Logic::removeDeadElements()
           // ^^^^^^^^^^^^^^^^^
            // STORAGE ERASE IS NOT DEFINED
 //          it = storage.erase(it);
+          it.erase();
        }
        else
           ++it;

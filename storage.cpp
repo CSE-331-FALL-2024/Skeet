@@ -41,6 +41,8 @@ void Storage::add(StorageElement* pElement)
 	elements.emplace_back(pElement);
 }
 
+
+
 /******************************************************************************
 * STORAGE :: RESET remove all elements
 ******************************************************************************/
@@ -48,6 +50,7 @@ void Storage::reset()
 {
 	elements.clear();
 }
+		
 
 /******************************************************************************
 * STORAGE :: BEGIN for Iterator
@@ -101,7 +104,15 @@ Storage::IteratorBullet Storage::endBullet()
 * STORAGE :: ITERATOR :: CONSTRUCTOR
 ******************************************************************************/
 Storage::Iterator::Iterator(IterType start, IterType stop) : 
-	current(start), end(stop)
+	current(start), end(stop), container(nullptr)
+{
+}
+
+/******************************************************************************
+* STORAGE :: ITERATOR :: CONSTRUCTOR
+******************************************************************************/
+Storage::Iterator::Iterator(IterType start, IterType stop, std::list<StorageElement*>* container) : 
+	current(start), end(stop), container(container)
 {
 }
 
@@ -131,10 +142,37 @@ Storage::Iterator& Storage::Iterator::operator++()
 }
 
 /******************************************************************************
+* STORAGE :: ITERATOR :: ERASE()
+******************************************************************************/
+Storage::Iterator& Storage::Iterator::erase()
+{
+	if (container != nullptr && current != end)
+	{
+		delete *current;
+		current = container->erase(current);
+	}
+	return *this;
+}
+
+/******************************************************************************
 * STORAGE :: ITERATOR BIRD :: CONSTRUCTOR
 ******************************************************************************/
 Storage::IteratorBird::IteratorBird(IterType start, IterType stop) :
-	currentBird(start), endBird(stop)
+	currentBird(start), endBird(stop), container(nullptr)
+{
+	// Find first bird
+	if (currentBird != endBird)
+	{
+		StorageElement* element = *currentBird;
+		if (element->getStorageType() != StorageType::BIRD)
+		{
+			currentBird++;
+		}
+	}
+}
+
+Storage::IteratorBird::IteratorBird(IterType start, IterType stop, std::list<StorageElement*>* container) :
+	currentBird(start), endBird(stop), container(container)
 {
 	// Find first bird
 	if (currentBird != endBird)
@@ -184,11 +222,35 @@ Storage::IteratorBird& Storage::IteratorBird::operator++()
 	return *this;
 }
 
+Storage::IteratorBird& Storage::IteratorBird::erase()
+{
+	if (container != nullptr && currentBird != endBird)
+	{
+		delete *currentBird;
+		currentBird = container->erase(currentBird);
+	}
+	return *this;
+}
+
 /******************************************************************************
 * STORAGE :: ITERATOR BULLET :: CONSTRUCTOR
 ******************************************************************************/
 Storage::IteratorBullet::IteratorBullet(IterType start, IterType stop):
-	currentBullet(start), endBullet(stop)
+	currentBullet(start), endBullet(stop), container(nullptr)
+{
+	// Find first bullet
+	if (currentBullet != endBullet)
+	{
+		StorageElement* element = *currentBullet;
+		if (element->getStorageType() != StorageType::BULLET)
+		{
+			currentBullet++;
+		}
+	}
+}
+
+Storage::IteratorBullet::IteratorBullet(IterType start, IterType stop, std::list<StorageElement*>* container):
+	currentBullet(start), endBullet(stop), container(container)
 {
 	// Find first bullet
 	if (currentBullet != endBullet)
@@ -234,6 +296,16 @@ Storage::IteratorBullet& Storage::IteratorBullet::operator++()
 				foundBullet = true;
 			}
 		}
+	}
+	return *this;
+}
+
+Storage::IteratorBullet& Storage::IteratorBullet::erase()
+{
+	if (container != nullptr && currentBullet != endBullet)
+	{
+		delete* currentBullet;
+		currentBullet = container->erase(currentBullet);
 	}
 	return *this;
 }
