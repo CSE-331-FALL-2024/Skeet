@@ -31,6 +31,27 @@ using namespace std;
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
 #endif // _WIN32
 
+/*******************************************************************************
+ * SKEET :: DELETE OBJECTS AND CLEAR LISTS
+ * Objects pointed to by the list's pointers are deleted before the list is
+ * cleared. This fixes a memory leak.
+ *******************************************************************************/
+void Skeet::deleteObjectsAndClearLists()
+{
+    for (auto bird : birds)
+        delete bird;
+	birds.clear();
+    for (auto bullet : bullets)
+        delete bullet;
+	bullets.clear();
+    for (auto effect : effects)
+        delete effect;
+	effects.clear();
+
+    // The points list contains objects, not pointers, so delete isn't needed.
+	points.clear();
+}
+
 /************************
  * SKEET ANIMATE
  * move the gameplay by one unit of time
@@ -42,17 +63,14 @@ void Skeet::animate()
    // if status, then do not move the game
    if (time.isStatus())
    {
-      // get rid of the bullets and the birds without changing the score
-      birds.clear();
-      bullets.clear();
-      effects.clear();
-      points.clear();
-      return;
+	   // get rid of the bullets and the birds without changing the score
+       deleteObjectsAndClearLists();
+	   return;
    }
-   
+
    // spawn
    spawn();
-   
+
    // move the birds and the bullets
    for (auto element : birds)
    {
@@ -91,7 +109,7 @@ void Skeet::animate()
             points.push_back(Points((*it)->getPosition(), (*it)->getPoints()));
          score.adjust((*it)->getPoints());
          // Fixed Memory Leak
-         delete (*it);
+         delete *it;
          // ^^^^^^^^^^^^^^^^^
          it = birds.erase(it);
       }
@@ -107,7 +125,7 @@ void Skeet::animate()
          points.push_back(Points((*it)->getPosition(), value));
          score.adjust(value);
          // Fixed Memory Leak
-         delete (*it);
+         delete *it;
          // ^^^^^^^^^^^^^^^^^
          it = bullets.erase(it);
       }
@@ -118,7 +136,7 @@ void Skeet::animate()
    for (auto it = effects.begin(); it != effects.end();)
        if ((*it)->isDead()) {
          // Fixed Memory Leak
-         delete (*it);
+         delete *it;
          // ^^^^^^^^^^^^^^^^^
          it = effects.erase(it);
        }
@@ -296,6 +314,7 @@ void Skeet::drawBullseye(double angle) const
    glEnd();
 }
 
+
 /************************
  * SKEET DRAW LEVEL
  * output everything that will be on the screen
@@ -360,6 +379,7 @@ void Skeet::drawStatus() const
          sout.str());
    }
 }
+
 
 /************************
  * SKEET INTERACT

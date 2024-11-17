@@ -30,6 +30,7 @@ class Skeet
 public:
     Skeet(Position & dimensions) : dimensions(dimensions),
         gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
+    ~Skeet() { deleteObjectsAndClearLists(); }
 
     // handle all user input
     void interact(const UserInput& ui);
@@ -51,6 +52,7 @@ private:
                    double redFore, double greenFore, double blueFore,
                    double redBack, double greenBack, double blueBack) const;
     void drawBullseye(double angle) const;
+    void deleteObjectsAndClearLists();
 
     Gun gun;                       // the gun
     std::list<Bird*> birds;        // all the shootable birds
