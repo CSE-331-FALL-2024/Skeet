@@ -18,6 +18,8 @@
 #include "time.h"
 #include "score.h"
 #include "points.h"
+#include "executor.h"
+#include "order.h"
 
 #include <list>
 
@@ -64,4 +66,6 @@ private:
     HitRatio hitRatio;             // the hit ratio for the birds
     Position dimensions;           // size of the screen
     bool bullseye;
+
+	Executor executor;
 };

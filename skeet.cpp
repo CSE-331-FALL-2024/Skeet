@@ -385,41 +385,69 @@ void Skeet::drawStatus() const
  * SKEET INTERACT
  * handle all user input
  ************************/
-void Skeet::interact(const UserInput & ui)
+void Skeet::interact(const UserInput& ui)
 {
-   // reset the game
-   if (time.isGameOver() && ui.isSpace())
-   { 
-      time.reset();
-      score.reset();
-      hitRatio.reset();
-      return;
-   }
+    /********************************************************************************************************
+Current implementation:
+This implementation uses the Encapsulated Invocation (AKA Command Pattern).
+Each game action (like resetting the game, firing bullets, or updating inputs) 
+is encapsulated as a Order. Skeet::interact defines the logic/conditions for 
+orders to be created based on the user input
+    *********************************************************************************************************/
 
-   // gather input from the interface
-   gun.interact(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft());
-   Bullet *p = nullptr;
+    // Game reset order
+    if (time.isGameOver() && ui.isSpace()) {
+        executor.execute(new gameResetOrder(time, score, hitRatio));
+    }
+    // Bullet orders
+    if (ui.isSpace()) {
+        executor.execute(new PelletOrder(bullets, gun.getAngle()));
+    }
+    else if (ui.isM() && time.level() > 1) {
+        executor.execute(new MissileOrder(bullets, gun.getAngle()));
+    }
+    else if (ui.isB() && time.level() > 2) {
+        executor.execute(new BombOrder(bullets, gun.getAngle()));
+    }
+    // Update game state order
+    executor.execute(new stateOrder(ui.isUp(), ui.isRight(), ui.isDown(), ui.isLeft(), ui.isB(), ui.isShift(), bullets, gun, bullseye));
 
-   // a pellet can be shot at any time
-   if (ui.isSpace())
-      p = new Pellet(gun.getAngle());
-   // missiles can be shot at level 2 and higher
-   else if (ui.isM() && time.level() > 1)
-      p = new Missile(gun.getAngle());
-   // bombs can be shot at level 3 and higher
-   else if (ui.isB() && time.level() > 2)
-      p = new Bomb(gun.getAngle());
-   
-   bullseye = ui.isShift();
+    /********************************************************************************************************
+    * Before implementation below:
+    * In the previous implementation, the Skeet::interact method handled all game logic directly.
+    * It processed user input, created game objects like bullets, and updated them inline.
+    * This tightly coupled interact with specific actions, making the method harder to maintain and extend.
+    *********************************************************************************************************/
 
-   // add something if something has been added
-   if (nullptr != p)
-      bullets.push_back(p);
-   
-   // send movement information to all the bullets. Only the missile cares.
-   for (auto bullet : bullets)
-      bullet->input(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft(), ui.isB()); 
+    /*
+    // Gather input from the interface
+    gun.interact(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft());
+
+    Bullet *p = nullptr;
+
+    // A pellet can be shot at any time
+    if (ui.isSpace())
+        p = new Pellet(gun.getAngle());
+    // Missiles can be shot at level 2 and higher
+    else if (ui.isM() && time.level() > 1)
+        p = new Missile(gun.getAngle());
+    // Bombs can be shot at level 3 and higher
+    else if (ui.isB() && time.level() > 2)
+        p = new Bomb(gun.getAngle());
+
+    // Add the created bullet to the list
+    if (nullptr != p)
+        bullets.push_back(p);
+
+    // Update input for all bullets. Only missiles care about movement input.
+    for (auto bullet : bullets)
+        bullet->input(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft(), ui.isB());
+
+    // Update the bullseye flag
+    bullseye = ui.isShift();
+    */
 }
+
 
 /******************************************************************
  * RANDOM

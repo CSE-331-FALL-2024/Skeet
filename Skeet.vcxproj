@@ -151,11 +151,13 @@ copy "$(ProjectDir)packages\nupengl.core.redist.0.1.0.1\build\native\bin\x64\fre
     <ClInclude Include="bird.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="effect.h" />
+    <ClInclude Include="executor.h" />
     <ClInclude Include="gun.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="interface_element.h" />
     <ClInclude Include="logic.h" />
     <ClInclude Include="logic_element.h" />
+    <ClInclude Include="order.h" />
     <ClInclude Include="points.h" />
     <ClInclude Include="position.h" />
     <ClInclude Include="score.h" />
