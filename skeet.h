@@ -18,6 +18,7 @@
 #include "time.h"
 #include "score.h"
 #include "points.h"
+#include "executor.hpp"
 
 #include <list>
 
@@ -29,7 +30,7 @@ class Skeet
 {
 public:
     Skeet(Position & dimensions) : dimensions(dimensions),
-        gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
+        gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false), executor(birds, bullets) {}
     ~Skeet() { deleteObjectsAndClearLists(); }
 
     // handle all user input
@@ -46,7 +47,6 @@ public:
     bool isPlaying() const { return time.isPlaying();  }
 private:
     // generate new birds
-    void spawn();                  
     void drawBackground(double redBack, double greenBack, double blueBack) const;
     void drawTimer(double percent,
                    double redFore, double greenFore, double blueFore,
@@ -63,5 +63,6 @@ private:
     Score score;                   // the player's score
     HitRatio hitRatio;             // the hit ratio for the birds
     Position dimensions;           // size of the screen
+    Executor executor;
     bool bullseye;
 };
